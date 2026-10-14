@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Страница не найдена — Govza Labs</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F2F0EB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E0E0D" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') root.dataset.theme = theme;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400..700&family=Wix+Madefor+Display:wght@500..800&display=swap">
+  <link rel="stylesheet" href="/assets/css/site.css">
+
+  <script defer src="/assets/js/site.js"></script>
+  <script type="module" async src="/assets/js/analytics.js"></script>
+</head>
+
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-mark" viewBox="0 0 64 64">
+      <path d="M32 0C6.4 0 0 6.4 0 32s6.4 32 32 32 32-6.4 32-32S57.6 0 32 0Z" fill="var(--mark-bg)" />
+      <path d="M44 23.5A14.5 14.5 0 1 0 46.5 34H33" fill="none" stroke="var(--mark-fg)" stroke-width="8" />
+      <circle cx="50" cy="14" r="6" fill="#FF5B14" />
+    </symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24">
+      <path d="M4.5 12h15M13.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <path d="M12 3.75a8.25 8.25 0 0 1 0 16.5Z" fill="currentColor" />
+    </symbol>
+  </svg>
+
+  <header class="site-header" data-header>
+    <div class="nav-shell">
+      <a class="brand" href="/" aria-label="Govza Labs — на главную">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-mark" /></svg>
+        <span class="brand-name">Govza Labs</span>
+      </a>
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Тёмная тема" aria-pressed="false">
+          <svg aria-hidden="true"><use href="#i-theme" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="not-found" id="main">
+    <div>
+      <p class="not-found-code hero-in" aria-hidden="true">4<span>0</span>4</p>
+      <h1 class="hero-in" style="--d: 1">Такой страницы нет</h1>
+      <p class="hero-in" style="--d: 2">Возможно, ссылка устарела или в&nbsp;адресе опечатка. Всё остальное&nbsp;— на&nbsp;главной.</p>
+      <div class="not-found-actions hero-in" style="--d: 3">
+        <a class="btn btn--accent btn--lg" href="/">
+          На главную
+          <span class="btn-icon"><svg aria-hidden="true"><use href="#i-arrow-r" /></svg></span>
+        </a>
+        <a class="btn btn--ghost btn--lg" href="/#calculator">Рассчитать стоимость</a>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

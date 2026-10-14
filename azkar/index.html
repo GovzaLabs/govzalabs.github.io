@@ -1,265 +1,300 @@
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth overflow-x-hidden">
+<html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azkar — Ежедневные поминания | Govza Labs</title>
-    <meta name="description" content="Скачайте Azkar — удобное и красивое приложение для чтения ежедневных азкаров и дуа. Доступно на iOS и Android.">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Azkar — Ежедневные поминания">
-    <meta property="og:description" content="Удобное и красивое приложение для чтения ежедневных азкаров и дуа.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="store-screenshots/screen_1_ru.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Azkar — ежедневные поминания и дуа | Govza Labs</title>
+  <meta name="description" content="Скачайте Azkar — удобное и красивое приложение для чтения ежедневных азкаров и дуа: напоминания, виджет, счётчик, перевод и аудио. iOS и Android.">
+  <link rel="canonical" href="https://govzalabs.github.io/azkar/">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236366F1' /><stop offset='0.5' stop-color='%23A855F7' /><stop offset='1' stop-color='%23EC4899' /></linearGradient></defs><rect x='4' y='4' width='92' height='92' rx='24' fill='url(%23g)' /><path d='M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22' stroke='%23FFFFFF' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none' /><path d='M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z' fill='%23FFFFFF' /><circle cx='50' cy='56' r='3.5' fill='%23FFFFFF' /></svg>">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Govza Labs">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://govzalabs.github.io/azkar/">
+  <meta property="og:title" content="Azkar — ежедневные поминания и дуа">
+  <meta property="og:description" content="Удобное и красивое приложение для чтения ежедневных азкаров и дуа. 500 000+ установок, оценка 4,9 в App Store.">
+  <meta property="og:image" content="https://govzalabs.github.io/azkar/store-screenshots/screen_1_ru.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGbTm0oZOhUtfwTf_G97amgvoA3CJbPg0",
-            authDomain: "avocadoappswebsite.firebaseapp.com",
-            projectId: "avocadoappswebsite",
-            storageBucket: "avocadoappswebsite.firebasestorage.app",
-            messagingSenderId: "805026130598",
-            appId: "1:805026130598:web:86d8d53a1ed3cd6b5f6267",
-            measurementId: "G-2QNNH7FLBJ"
-        };
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+  <meta name="theme-color" content="#F2F0EB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E0E0D" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-        // Track all link clicks
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link) {
-                const url = link.href;
-                const text = link.innerText || link.textContent || link.getAttribute('aria-label') || 'no_text';
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') root.dataset.theme = theme;
+      } catch (e) {}
+      setTimeout(function () {
+        if (!window.glReady) root.classList.add('no-reveal');
+      }, 3000);
+    })();
+  </script>
 
-                // Basic link click
-                logEvent(analytics, 'link_click', {
-                    link_url: url,
-                    link_text: text.trim().substring(0, 100)
-                });
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400..700&family=Wix+Madefor+Display:wght@500..800&display=swap">
+  <link rel="stylesheet" href="/assets/css/site.css">
 
-                // Specific Store tracking
-                if (url.includes('apps.apple.com')) {
-                    logEvent(analytics, 'app_store_click', { platform: 'ios' });
-                } else if (url.includes('play.google.com')) {
-                    logEvent(analytics, 'google_play_click', { platform: 'android' });
-                }
-            }
-        });
-
-        window.firebaseAnalytics = analytics;
-        window.logEvent = logEvent;
-    </script>
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
-
-        .font-brand {
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, #ecfdf5 0%, #f8fafc 100%);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .step-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .step-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        /* Marquee for Screenshots */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 40s linear infinite;
-        }
-
-        .screenshot-mask {
-            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-            pointer-events: none;
-            user-select: none;
-        }
-    </style>
+  <script defer src="/assets/js/site.js"></script>
+  <script type="module" async src="/assets/js/analytics.js"></script>
 </head>
 
-<body class="antialiased selection:bg-emerald-500 selection:text-white hero-gradient overflow-x-hidden">
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-mark" viewBox="0 0 64 64">
+      <path d="M32 0C6.4 0 0 6.4 0 32s6.4 32 32 32 32-6.4 32-32S57.6 0 32 0Z" fill="var(--mark-bg)" />
+      <path d="M44 23.5A14.5 14.5 0 1 0 46.5 34H33" fill="none" stroke="var(--mark-fg)" stroke-width="8" />
+      <circle cx="50" cy="14" r="6" fill="#FF5B14" />
+    </symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24">
+      <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24">
+      <path d="M4.5 12h15M13.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="m12 2.8 2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3-4.57-4.46 6.32-.92Z" fill="currentColor" />
+    </symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <path d="M12 3.75a8.25 8.25 0 0 1 0 16.5Z" fill="currentColor" />
+    </symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+    </symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+    </symbol>
+  </svg>
 
-    <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-[#e0e0e0]">
-        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="../" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                        class="w-full h-full transition-transform group-hover:scale-110" fill="none">
-                        <defs><linearGradient id="gl-mark-2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-2)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
-                    </svg>
-                </div>
-                <span class="font-brand font-bold text-lg tracking-tight text-black">Govza Labs</span>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+  <header class="site-header" data-header>
+    <div class="nav-shell">
+      <a class="brand" href="/" aria-label="Govza Labs — на главную">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-mark" /></svg>
+        <span class="brand-name">Govza Labs</span>
+      </a>
+
+      <nav class="nav" aria-label="Разделы">
+        <a href="/#projects">Работы</a>
+        <a href="/#services">Услуги</a>
+        <a href="/#process">Процесс</a>
+        <a href="/#calculator">Стоимость</a>
+        <a href="/#about">О студии</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Тёмная тема" aria-pressed="false">
+          <svg aria-hidden="true"><use href="#i-theme" /></svg>
+        </button>
+        <a class="btn btn--accent btn--sm nav-cta" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+          Обсудить проект
+          <span class="btn-icon"><svg aria-hidden="true"><use href="#i-arrow-ur" /></svg></span>
+        </a>
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu">
+          <span class="menu-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+          <span class="sr-only">Меню</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu" id="site-menu" data-menu hidden>
+    <nav class="menu-nav" aria-label="Меню">
+      <a href="/#projects" style="--d: 0"><span>01</span>Работы</a>
+      <a href="/#services" style="--d: 1"><span>02</span>Услуги</a>
+      <a href="/#process" style="--d: 2"><span>03</span>Процесс</a>
+      <a href="/#calculator" style="--d: 3"><span>04</span>Стоимость</a>
+      <a href="/#about" style="--d: 4"><span>05</span>О студии</a>
+      <a href="/#contact" style="--d: 5"><span>06</span>Контакты</a>
+    </nav>
+    <div class="menu-foot" style="--d: 6">
+      <a class="btn btn--accent btn--block" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+        <svg class="btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+        Написать в Telegram
+      </a>
+      <a class="btn btn--ghost btn--block" href="https://wa.me/79286404000" target="_blank" rel="noopener">
+        <svg class="btn-glyph" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="product-hero" aria-labelledby="product-title">
+      <div class="container product-hero-grid">
+        <div>
+          <a class="breadcrumb hero-in" href="/#projects" style="--d: 0">
+            <svg aria-hidden="true"><use href="#i-arrow-r" /></svg>
+            Все проекты Govza Labs
+          </a>
+          <div class="product-id hero-in" style="--d: 1">
+            <img class="product-icon" src="/assets/img/icons/azkar.webp" alt="" width="96" height="96">
+            <div>
+              <h1 class="product-title" id="product-title">Azkar</h1>
+              <p class="product-sub">Ежедневные поминания и&nbsp;дуа</p>
+            </div>
+          </div>
+          <p class="lead hero-in" style="--d: 2">Удобный способ читать ежедневные мольбы и&nbsp;поминания Аллаха. Напоминания, счётчик, перевод и&nbsp;аудио&nbsp;— всё в&nbsp;одном приложении.</p>
+          <div class="store-badges hero-in" style="--d: 3">
+            <a href="https://apps.apple.com/ru/app/azkar/id1511423586?itscg=30200&amp;itsct=apps_box_badge&amp;mttnsubad=1511423586" target="_blank" rel="noopener">
+              <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/ru-ru?releaseDate=1589673600" alt="Загрузите в App Store" width="157" height="52">
             </a>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-                <a href="../#projects" class="hover:text-black transition-colors">Проекты</a>
-                <a href="../#about" class="hover:text-black transition-colors">О нас</a>
-                <a href="../#contact" class="hover:text-black transition-colors">Контакты</a>
-            </nav>
-
-            <div class="md:hidden">
-                <button id="mobile-menu-btn" class="text-black p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-            </div>
+            <a href="https://play.google.com/store/apps/details?id=io.jawziyya.azkar" target="_blank" rel="noopener">
+              <img src="/azkar/badges/play-store.svg" alt="Доступно в Google Play" width="175" height="52">
+            </a>
+          </div>
+          <ul class="product-stats hero-in" style="--d: 4">
+            <li><strong>4,9<svg aria-hidden="true"><use href="#i-star" /></svg></strong><span>средняя оценка, 15&nbsp;000+ оценок в&nbsp;App&nbsp;Store</span></li>
+            <li><strong>500&nbsp;000+</strong><span>установок</span></li>
+          </ul>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-[#e0e0e0]">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-gray-600">
-                <a href="../#projects" class="hover:text-black transition-colors block py-2">Проекты</a>
-                <a href="../#about" class="hover:text-black transition-colors block py-2">О нас</a>
-                <a href="../#contact" class="hover:text-black transition-colors block py-2">Контакты</a>
-            </div>
+        <div class="product-stage" aria-hidden="true">
+          <img src="/azkar/screens/screen-2.webp" alt="" width="600" height="1304">
+          <img src="/azkar/screens/screen-1.webp" alt="" width="600" height="1304">
+          <img src="/azkar/screens/screen-3.webp" alt="" width="600" height="1304">
         </div>
-    </header>
+      </div>
+    </section>
 
-    <main class="pt-32 pb-20">
-        <!-- HERO SECTION -->
-        <section class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <!-- Text Content -->
-                <div class="flex-1 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-6">
-                        <iconify-icon icon="solar:star-bold"></iconify-icon>
-                        Лучшее приложение для азкаров
-                    </div>
-                    <h1 class="text-6xl md:text-7xl font-black font-brand text-slate-900 tracking-tight mb-6 leading-tight flex flex-col md:flex-row items-center lg:items-start gap-4">
-                        <img src="app-icon.png" alt="Azkar Logo" class="w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-lg">
-                        <span>Azkar <span class="text-emerald-600">App</span></span>
-                    </h1>
-                    <p class="text-xl text-slate-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                        Удобный способ читать ежедневные мольбы и поминания Аллаха. Напоминания, счетчик, перевод и аудио — всё в одном приложении.
-                    </p>
-
-                    <div class="flex flex-wrap justify-center lg:justify-start gap-4">
-                        <a href="https://apps.apple.com/ru/app/azkar/id1511423586?itscg=30200&itsct=apps_box_badge&mttnsubad=1511423586" target="_blank" class="transition-transform hover:scale-105 active:scale-95">
-                            <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/ru-ru?releaseDate=1589673600" alt="Download on the App Store" style="width: 180px; height: auto; vertical-align: middle; object-fit: contain;">
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=io.jawziyya.azkar" target="_blank" class="transition-transform hover:scale-105 active:scale-95">
-                            <img src="badges/play-store.svg" alt="Get it on Google Play" style="width: 200px; height: auto; vertical-align: middle; object-fit: contain;">
-                        </a>
-                    </div>
-
-                    <div class="mt-12 flex items-center justify-center lg:justify-start gap-6 text-slate-400">
-                        <div class="flex flex-col items-center lg:items-start">
-                            <div class="text-2xl font-black text-slate-800">4.9 ✦</div>
-                            <div class="text-xs font-bold uppercase tracking-widest">Рейтинг</div>
-                        </div>
-                        <div class="w-px h-8 bg-slate-200"></div>
-                        <div class="flex flex-col items-center lg:items-start">
-                            <div class="text-2xl font-black text-slate-800">500,000+</div>
-                            <div class="text-xs font-bold uppercase tracking-widest">Установок</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- App Screenshots Carousel -->
-                <div class="flex-1 w-full min-w-0 relative overflow-hidden screenshot-mask py-10">
-                    <div class="animate-marquee gap-4 md:gap-6">
-                        <!-- First Set -->
-                        <img src="store-screenshots/screen_1_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 1">
-                        <img src="store-screenshots/screen_2_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 2">
-                        <img src="store-screenshots/screen_3_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 3">
-                        <img src="store-screenshots/screen_4_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 4">
-                        <img src="store-screenshots/screen_5_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 5">
-                        <img src="store-screenshots/screen_6_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 6">
-                        <!-- Duplicate for Seamless Loop -->
-                        <img src="store-screenshots/screen_1_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 1">
-                        <img src="store-screenshots/screen_2_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 2">
-                        <img src="store-screenshots/screen_3_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 3">
-                        <img src="store-screenshots/screen_4_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 4">
-                        <img src="store-screenshots/screen_5_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 5">
-                        <img src="store-screenshots/screen_6_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 6">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="border-t border-slate-200 py-12">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full" fill="none">
-                        <defs><linearGradient id="gl-mark-3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-3)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
-                    </svg>
-                </div>
-                <span class="font-brand font-bold text-lg text-slate-900 uppercase tracking-tighter">Govza Labs</span>
-            </div>
-            <p class="text-sm text-slate-500 font-medium">© 2026 Govza Labs. Все права защищены.</p>
+    <section class="section" id="screens" aria-labelledby="screens-title">
+      <div class="container">
+        <div class="gallery-head">
+          <div>
+            <p class="section-label" data-reveal><span>01</span>Экраны</p>
+            <h2 class="h2" id="screens-title" data-reveal style="--d: 1">Как выглядит приложение</h2>
+          </div>
+          <div class="gallery-nav">
+            <button type="button" data-gallery-prev aria-label="Предыдущие экраны"><svg aria-hidden="true"><use href="#i-arrow-r" /></svg></button>
+            <button type="button" data-gallery-next aria-label="Следующие экраны"><svg aria-hidden="true"><use href="#i-arrow-r" /></svg></button>
+          </div>
         </div>
-    </footer>
-    <script>
-        // Mobile menu toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
+      </div>
+      <ul class="gallery" data-gallery tabindex="0" aria-label="Скриншоты Azkar">
+        <li><img src="/azkar/screens/screen-1.webp" alt="Азкары и дуа, которые всегда с тобой" width="600" height="1304" loading="lazy" decoding="async"></li>
+        <li><img src="/azkar/screens/screen-2.webp" alt="Лаконичный виджет с напоминаниями" width="600" height="1304" loading="lazy" decoding="async"></li>
+        <li><img src="/azkar/screens/screen-3.webp" alt="Читай и слушай в удобном формате, считай повторения" width="600" height="1304" loading="lazy" decoding="async"></li>
+        <li><img src="/azkar/screens/screen-4.webp" alt="Темы и цвета оформления" width="600" height="1304" loading="lazy" decoding="async"></li>
+        <li><img src="/azkar/screens/screen-5.webp" alt="Подробные настройки" width="600" height="1304" loading="lazy" decoding="async"></li>
+        <li><img src="/azkar/screens/screen-6.webp" alt="Карточки, чтобы делиться азкарами" width="600" height="1304" loading="lazy" decoding="async"></li>
+      </ul>
+    </section>
 
-        if (btn && menu) {
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-            });
+    <section class="section section--alt" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>02</span>Возможности</p>
+          <h2 class="h2" id="features-title" data-reveal style="--d: 1">Всё, чтобы азкары стали привычкой</h2>
+        </header>
+        <ul class="features">
+          <li class="feature" data-reveal>
+            <span class="feature-num">01</span>
+            <h3>Читай и&nbsp;слушай</h3>
+            <p>Текст, перевод и&nbsp;транскрипция, а&nbsp;ещё аудио&nbsp;— в&nbsp;удобном формате.</p>
+          </li>
+          <li class="feature" data-reveal style="--d: 1">
+            <span class="feature-num">02</span>
+            <h3>Виджет и&nbsp;напоминания</h3>
+            <p>Лаконичный виджет на&nbsp;экране и&nbsp;оповещения обо всех важных моментах.</p>
+          </li>
+          <li class="feature" data-reveal style="--d: 2">
+            <span class="feature-num">03</span>
+            <h3>Счётчик повторений</h3>
+            <p>Отмечайте повторения прямо на&nbsp;экране чтения&nbsp;— без отдельных чёток.</p>
+          </li>
+          <li class="feature" data-reveal>
+            <span class="feature-num">04</span>
+            <h3>Темы и&nbsp;цвета</h3>
+            <p>Меняйте оформление, чтобы читать было приятно и&nbsp;днём, и&nbsp;ночью.</p>
+          </li>
+          <li class="feature" data-reveal style="--d: 1">
+            <span class="feature-num">05</span>
+            <h3>Тонкая настройка</h3>
+            <p>Шрифты, размеры, звуки и&nbsp;напоминания&nbsp;— настроить можно всё до&nbsp;мелочей.</p>
+          </li>
+          <li class="feature" data-reveal style="--d: 2">
+            <span class="feature-num">06</span>
+            <h3>Красивые карточки</h3>
+            <p>Делитесь азкарами с&nbsp;близкими в&nbsp;аккуратном оформлении.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-            // Close menu on click
-            menu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                });
-            });
-        }
-    </script>
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact" data-reveal>
+          <p class="section-label"><span>Govza Labs</span>Разработчик Azkar</p>
+          <h2 class="contact-title" id="contact-title">Нужно похожее приложение?</h2>
+          <p class="contact-lead">Мы сделали Azkar от&nbsp;дизайна до&nbsp;сервера. Расскажите о&nbsp;своей идее&nbsp;— поможем запустить.</p>
+          <div class="contact-actions">
+            <a class="contact-btn" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+              <svg class="contact-btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+              <span class="contact-btn-text"><b>Telegram</b><span>@avoc0der</span></span>
+              <span class="contact-btn-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+            </a>
+            <a class="contact-btn" href="https://wa.me/79286404000" target="_blank" rel="noopener">
+              <svg class="contact-btn-glyph" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+              <span class="contact-btn-text"><b>WhatsApp</b><span>+7&nbsp;928&nbsp;640-40-00</span></span>
+              <span class="contact-btn-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+            </a>
+          </div>
+          <a class="contact-alt" href="/#calculator">Рассчитать стоимость своего проекта <svg aria-hidden="true"><use href="#i-arrow-r" /></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="Govza Labs — на главную">
+            <svg class="brand-mark" aria-hidden="true"><use href="#i-mark" /></svg>
+            <span class="brand-name">Govza Labs</span>
+          </a>
+          <p>Дизайн. Код. Продукт.<br>Приложения для iOS, Android и&nbsp;веба.</p>
+        </div>
+        <nav class="footer-col" aria-label="Разделы сайта">
+          <h3>Разделы</h3>
+          <a href="/#projects">Работы</a>
+          <a href="/#services">Услуги</a>
+          <a href="/#process">Процесс</a>
+          <a href="/#calculator">Стоимость</a>
+          <a href="/#about">О студии</a>
+        </nav>
+        <div class="footer-col">
+          <h3>Azkar</h3>
+          <a href="https://apps.apple.com/ru/app/azkar/id1511423586" target="_blank" rel="noopener">App Store</a>
+          <a href="https://play.google.com/store/apps/details?id=io.jawziyya.azkar" target="_blank" rel="noopener">Google Play</a>
+        </div>
+        <div class="footer-col">
+          <h3>Связаться</h3>
+          <a href="https://t.me/avoc0der" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://wa.me/79286404000" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+
+      <p class="footer-wordmark" aria-hidden="true">Govza Labs</p>
+
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Govza Labs</span>
+        <button class="theme-switch" type="button" data-theme-toggle>
+          <svg aria-hidden="true"><use href="#i-theme" /></svg>
+          <span data-theme-label>Тема</span>
+        </button>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>

@@ -1,2245 +1,718 @@
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
+<html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Govza Labs // мобильные приложения</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class' }
-    </script>
-    <script>
-        // Prevent flash: apply dark class before render
-        (function() {
-            var t = localStorage.getItem('theme');
-            if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236366F1' /><stop offset='0.5' stop-color='%23A855F7' /><stop offset='1' stop-color='%23EC4899' /></linearGradient></defs><rect x='4' y='4' width='92' height='92' rx='24' fill='url(%23g)' /><path d='M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22' stroke='%23FFFFFF' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none' /><path d='M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z' fill='%23FFFFFF' /><circle cx='50' cy='56' r='3.5' fill='%23FFFFFF' /></svg>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Govza Labs — студия мобильной разработки</title>
+  <meta name="description" content="Проектируем, рисуем и разрабатываем приложения для iOS, Android и веба — от первой идеи до публикации в App Store и Google Play. 10+ лет опыта, 50+ проектов.">
+  <link rel="canonical" href="https://govzalabs.github.io/">
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGbTm0oZOhUtfwTf_G97amgvoA3CJbPg0",
-            authDomain: "avocadoappswebsite.firebaseapp.com",
-            projectId: "avocadoappswebsite",
-            storageBucket: "avocadoappswebsite.firebasestorage.app",
-            messagingSenderId: "805026130598",
-            appId: "1:805026130598:web:86d8d53a1ed3cd6b5f6267",
-            measurementId: "G-2QNNH7FLBJ"
-        };
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Govza Labs">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://govzalabs.github.io/">
+  <meta property="og:title" content="Govza Labs — приложения, которые остаются на главном экране">
+  <meta property="og:description" content="Студия мобильной разработки: iOS, Android и веб — от идеи до публикации в сторах. Посчитайте стоимость проекта за минуту.">
+  <meta property="og:image" content="https://govzalabs.github.io/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
-        // Track all link clicks
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link) {
-                const url = link.href;
-                const text = link.innerText || link.textContent || link.getAttribute('aria-label') || 'no_text';
+  <meta name="theme-color" content="#F2F0EB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E0E0D" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-                logEvent(analytics, 'link_click', {
-                    link_url: url,
-                    link_text: text.trim().substring(0, 100) // Limit text length
-                });
-            }
-        });
+  <script>
+    // Apply the saved theme before first paint to avoid a flash.
+    // If site.js never runs, stop hiding scroll-reveal content after a moment.
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') root.dataset.theme = theme;
+      } catch (e) {}
+      setTimeout(function () {
+        if (!window.glReady) root.classList.add('no-reveal');
+      }, 3000);
+    })();
+  </script>
 
-        // Expose to global scope for other scripts
-        window.firebaseAnalytics = analytics;
-        window.logEvent = logEvent;
-    </script>
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400..700&family=Wix+Madefor+Display:wght@500..800&display=swap">
+  <link rel="stylesheet" href="/assets/css/site.css">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            background-image:
-                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #000000;
-        }
+  <script defer src="/assets/js/site.js"></script>
+  <script defer src="/assets/js/calculator.js"></script>
+  <script type="module" async src="/assets/js/analytics.js"></script>
 
-        .font-brand {
-            font-family: 'Outfit', sans-serif;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #bbb;
-        }
-
-        /* Hide scrollbar utility */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Patio-style Card */
-        .patio-card {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 16px;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-        }
-
-        .patio-card:hover {
-            border-color: #d0d0d0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Marquee Animation */
-        @keyframes marquee {
-            0% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            animation: marquee 60s linear infinite;
-        }
-
-        /* Gradient Text */
-        .text-gradient {
-            background: linear-gradient(to right, #333, #999);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .patio-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 8px;
-            border-radius: 100px;
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            color: #333;
-            font-size: 10px;
-            font-weight: 500;
-            line-height: 1;
-            transition: all 0.2s;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            gap: 4px;
-        }
-
-        .patio-tag iconify-icon {
-            font-size: 12px;
-        }
-
-        @media (min-width: 768px) {
-            .patio-tag {
-                padding: 6px 12px;
-                font-size: 12px;
-                gap: 8px;
-            }
-
-            .patio-tag iconify-icon {
-                font-size: 16px;
-            }
-        }
-
-        .patio-tag:hover {
-            border-color: #000;
-            color: #000;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Infinite Scroll */
-        @keyframes scroll-left {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-scroll-left {
-            width: max-content;
-        }
-
-        @media (min-width: 768px) {
-            /* JS handled animation */
-        }
-
-        #projects-track .patio-card {
-            min-width: 320px;
-            width: 320px;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 768px) {
-            .mask-gradient {
-                mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            }
-        }
-
-        /* Blob Animation */
-        @keyframes blob {
-            0% {
-                transform: translate(0px, 0px) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-
-            100% {
-                transform: translate(0px, 0px) scale(1);
-            }
-        }
-
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-
-        /* Particle Animation */
-        @keyframes float-particle {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0.4;
-            }
-
-            25% {
-                transform: translate(15px, -15px) scale(1.1);
-                opacity: 0.6;
-            }
-
-            50% {
-                transform: translate(-10px, 20px) scale(0.9);
-                opacity: 0.4;
-            }
-
-            75% {
-                transform: translate(20px, 5px) scale(1.05);
-                opacity: 0.6;
-            }
-        }
-
-        .animate-float-particle {
-            animation: float-particle 15s infinite ease-in-out;
-        }
-
-        /* Dark Mode */
-        html.dark body {
-            background-color: #0f0f0f;
-            background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-            color: #e5e5e5;
-        }
-
-        html.dark ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-
-        html.dark ::-webkit-scrollbar-thumb {
-            background: #444;
-        }
-
-        html.dark ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        html.dark .patio-card {
-            background-color: #1a1a1a;
-            border-color: #2a2a2a;
-        }
-
-        html.dark .patio-card:hover {
-            border-color: #3a3a3a;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        html.dark .text-gradient {
-            background: linear-gradient(to right, #ccc, #666);
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-
-        html.dark .patio-tag {
-            background-color: #1a1a1a;
-            border-color: #2a2a2a;
-            color: #ccc;
-        }
-
-        html.dark .patio-tag:hover {
-            border-color: #fff;
-            color: #fff;
-        }
-
-        /* Dark Mode: Calculator form */
-        html.dark #calculator-form h3 {
-            color: #e5e5e5;
-        }
-
-        html.dark #calculator-form .text-gray-900 {
-            color: #e5e5e5;
-        }
-
-        html.dark #calculator-form .text-gray-800 {
-            color: #d4d4d4;
-        }
-
-        html.dark #calculator-form .border-gray-200 {
-            border-color: #333;
-        }
-
-        html.dark #calculator-form .bg-white {
-            background-color: #222;
-        }
-
-        html.dark #calculator-form .hover\:bg-gray-50:hover {
-            background-color: #2a2a2a;
-        }
-
-        /* Dark Mode: Contact modal */
-        html.dark #contact-panel .text-gray-900 {
-            color: #e5e5e5;
-        }
-    </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Govza Labs",
+      "url": "https://govzalabs.github.io/",
+      "logo": "https://govzalabs.github.io/assets/img/icon-512.png",
+      "description": "Студия мобильной разработки: приложения для iOS, Android и веба.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+7-928-640-40-00",
+        "contactType": "sales",
+        "availableLanguage": ["ru"]
+      }
+    }
+  </script>
 </head>
 
-<body class="antialiased selection:bg-lime-500 selection:text-white dark:bg-[#0f0f0f]">
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-mark" viewBox="0 0 64 64">
+      <path d="M32 0C6.4 0 0 6.4 0 32s6.4 32 32 32 32-6.4 32-32S57.6 0 32 0Z" fill="var(--mark-bg)" />
+      <path d="M44 23.5A14.5 14.5 0 1 0 46.5 34H33" fill="none" stroke="var(--mark-fg)" stroke-width="8" />
+      <circle cx="50" cy="14" r="6" fill="#FF5B14" />
+    </symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24">
+      <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24">
+      <path d="M4.5 12h15M13.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-arrow-d" viewBox="0 0 24 24">
+      <path d="M12 4.5v15M6 13.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5.5v13M5.5 12h13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="m5.5 12.5 4.25 4.25L18.5 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="m12 2.8 2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3-4.57-4.46 6.32-.92Z" fill="currentColor" />
+    </symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <path d="M12 3.75a8.25 8.25 0 0 1 0 16.5Z" fill="currentColor" />
+    </symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+    </symbol>
+    <symbol id="i-telegram-plane" viewBox="3 6.2 15.2 12">
+      <path fill="currentColor" d="M16.906 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+    </symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+    </symbol>
+  </svg>
 
-    <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0f0f0f]/80 backdrop-blur-md border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                        class="w-full h-full transition-transform group-hover:scale-110" fill="none">
-                        <defs><linearGradient id="gl-mark-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-0)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
-                    </svg>
-                </div>
-                <span class="font-brand font-bold text-lg tracking-tight text-black dark:text-white">Govza Labs</span>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+  <header class="site-header" data-header>
+    <div class="nav-shell">
+      <a class="brand" href="/" aria-label="Govza Labs — на главную">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-mark" /></svg>
+        <span class="brand-name">Govza Labs</span>
+      </a>
+
+      <nav class="nav" aria-label="Разделы">
+        <a href="#projects" data-nav="projects">Работы</a>
+        <a href="#services" data-nav="services">Услуги</a>
+        <a href="#process" data-nav="process">Процесс</a>
+        <a href="#calculator" data-nav="calculator">Стоимость</a>
+        <a href="#about" data-nav="about">О студии</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Тёмная тема" aria-pressed="false">
+          <svg aria-hidden="true"><use href="#i-theme" /></svg>
+        </button>
+        <a class="btn btn--accent btn--sm nav-cta" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+          Обсудить проект
+          <span class="btn-icon"><svg aria-hidden="true"><use href="#i-arrow-ur" /></svg></span>
+        </a>
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu">
+          <span class="menu-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+          <span class="sr-only">Меню</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu" id="site-menu" data-menu hidden>
+    <nav class="menu-nav" aria-label="Меню">
+      <a href="#projects" style="--d: 0"><span>01</span>Работы</a>
+      <a href="#services" style="--d: 1"><span>02</span>Услуги</a>
+      <a href="#process" style="--d: 2"><span>03</span>Процесс</a>
+      <a href="#calculator" style="--d: 3"><span>04</span>Стоимость</a>
+      <a href="#about" style="--d: 4"><span>05</span>О студии</a>
+      <a href="#contact" style="--d: 5"><span>06</span>Контакты</a>
+    </nav>
+    <div class="menu-foot" style="--d: 6">
+      <a class="btn btn--accent btn--block" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+        <svg class="btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+        Написать в Telegram
+      </a>
+      <a class="btn btn--ghost btn--block" href="https://wa.me/79286404000" target="_blank" rel="noopener">
+        <svg class="btn-glyph" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow hero-in" style="--d: 0"><span class="live-dot" aria-hidden="true"></span>Студия мобильной разработки</p>
+          <h1 class="display hero-in" id="hero-title" style="--d: 1">Приложения, которые остаются на&nbsp;главном экране</h1>
+          <p class="lead hero-in" style="--d: 2">Создаём быстрые, стабильные и&nbsp;красивые приложения для бизнеса и&nbsp;пользователей&nbsp;— от&nbsp;первой идеи до&nbsp;публикации в&nbsp;App&nbsp;Store и&nbsp;Google&nbsp;Play.</p>
+          <div class="hero-actions hero-in" style="--d: 3">
+            <a class="btn btn--accent btn--lg" href="#calculator">
+              Рассчитать стоимость
+              <span class="btn-icon"><svg aria-hidden="true"><use href="#i-arrow-r" /></svg></span>
             </a>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-400">
-                <a href="#projects" class="hover:text-black dark:hover:text-white transition-colors">Проекты</a>
-                <a href="#about" class="hover:text-black dark:hover:text-white transition-colors">О нас</a>
-                <a href="#contact" class="hover:text-black dark:hover:text-white transition-colors">Контакты</a>
-            </nav>
-
-            <div class="flex items-center gap-2">
-                <button id="dark-mode-toggle" class="p-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors" aria-label="Toggle dark mode">
-                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-black dark:text-white p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-                </div>
-            </div>
+            <a class="btn btn--ghost btn--lg" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+              <svg class="btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+              Написать в&nbsp;Telegram
+            </a>
+          </div>
+          <ul class="hero-facts hero-in" style="--d: 4">
+            <li><strong>10+</strong><span>лет в&nbsp;мобильной разработке</span></li>
+            <li><strong>50+</strong><span>запущенных проектов</span></li>
+            <li><strong>500&nbsp;000+</strong><span>установок у&nbsp;Azkar</span></li>
+          </ul>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-[#1a1a1a] border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-gray-600 dark:text-gray-400">
-                <a href="#projects" class="hover:text-black dark:hover:text-white transition-colors block py-2">Проекты</a>
-                <a href="#about" class="hover:text-black dark:hover:text-white transition-colors block py-2">О нас</a>
-                <a href="#contact" class="hover:text-black dark:hover:text-white transition-colors block py-2">Контакты</a>
+        <div class="hero-visual">
+          <div class="phone-stage">
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="hs-status" aria-hidden="true">
+                  <span class="hs-time">9:41</span>
+                  <span class="hs-island"></span>
+                  <span class="hs-indicators">
+                    <svg viewBox="0 0 17 11" class="hs-signal"><rect x="0" y="7" width="3" height="4" rx="1" /><rect x="4.5" y="5" width="3" height="6" rx="1" /><rect x="9" y="2.5" width="3" height="8.5" rx="1" /><rect x="13.5" y="0" width="3" height="11" rx="1" /></svg>
+                    <svg viewBox="0 0 16 11" class="hs-wifi"><path d="M1.5 4.2a9.4 9.4 0 0 1 13 0M4.1 6.9a5.7 5.7 0 0 1 7.8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /><circle cx="8" cy="9.4" r="1.5" /></svg>
+                    <svg viewBox="0 0 27 12" class="hs-battery"><rect x=".5" y=".5" width="23" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45" /><rect x="2" y="2" width="17" height="8" rx="1.8" /><path d="M25 4v4c.8-.3 1.4-1.1 1.4-2S25.8 4.3 25 4Z" opacity=".5" /></svg>
+                  </span>
+                </div>
+
+                <div class="hs-widget" aria-hidden="true">
+                  <div class="hs-widget-head">
+                    <img src="/assets/img/icons/govza.webp" alt="" width="40" height="40">
+                    <span>Govza Курьер</span>
+                    <b>12&nbsp;мин</b>
+                  </div>
+                  <p class="hs-widget-title">Курьер в&nbsp;пути</p>
+                  <p class="hs-widget-sub">Склад → Офис · 4,2 км</p>
+                  <div class="hs-progress"><i class="is-done"></i><i class="is-done"></i><i class="is-active"></i><i></i></div>
+                </div>
+
+                <ul class="hs-grid" aria-label="Приложения, которые мы сделали">
+                  <li><a class="hs-app" href="#work-azkar" style="--i: 0"><img src="/assets/img/icons/azkar.webp" alt="" width="60" height="60"><span>Azkar</span></a></li>
+                  <li><a class="hs-app" href="#work-govza" style="--i: 1"><img src="/assets/img/icons/govza.webp" alt="" width="60" height="60"><span>Govza</span></a></li>
+                  <li><a class="hs-app" href="#work-evetto" style="--i: 2"><img src="/assets/img/icons/evetto.webp" alt="" width="60" height="60"><span>Evetto</span></a></li>
+                  <li><a class="hs-app" href="#work-fulan" style="--i: 3"><img src="/assets/img/icons/fulan.webp" alt="" width="60" height="60"><span>Fulan Travel</span></a></li>
+                  <li><a class="hs-app" href="#work-baitech" style="--i: 4"><img src="/assets/img/icons/baitech.webp" alt="" width="60" height="60"><span>BaiTech</span></a></li>
+                  <li><a class="hs-app" href="#work-mysalah" style="--i: 5"><img src="/assets/img/icons/mysalah.webp" alt="" width="60" height="60"><span>mySalah</span></a></li>
+                  <li><a class="hs-app" href="#work-darulhadis" style="--i: 6"><img src="/assets/img/icons/darulhadis.webp" alt="" width="60" height="60"><span>Дар уль-Хадис</span></a></li>
+                  <li><a class="hs-app" href="#work-stonemd" style="--i: 7"><img src="/assets/img/icons/stonemd.webp" alt="" width="60" height="60"><span>Stone MD</span></a></li>
+                  <li><a class="hs-app" href="#work-sahih" style="--i: 8"><img src="/assets/img/icons/sahih.webp" alt="" width="60" height="60"><span>Сахих</span></a></li>
+                  <li><a class="hs-app" href="#work-arabia" style="--i: 9"><img src="/assets/img/icons/arabia.webp" alt="" width="60" height="60"><span>Arabia</span></a></li>
+                  <li><a class="hs-app" href="#work-q200" style="--i: 10"><img src="/assets/img/icons/q200.webp" alt="" width="60" height="60"><span>200 вопросов</span></a></li>
+                  <li><a class="hs-app" href="#work-kutubist" style="--i: 11"><img src="/assets/img/icons/kutubist.webp" alt="" width="60" height="60"><span>Кутубист</span></a></li>
+                </ul>
+
+                <div class="hs-dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+
+                <div class="hs-dock">
+                  <a class="hs-dock-app tile-calc" href="#calculator" aria-label="Калькулятор стоимости" style="--i: 12"><i></i><i></i><i></i><i></i></a>
+                  <a class="hs-dock-app tile-tg" href="https://t.me/avoc0der" target="_blank" rel="noopener" aria-label="Написать в Telegram" style="--i: 13"><svg aria-hidden="true"><use href="#i-telegram-plane" /></svg></a>
+                  <a class="hs-dock-app tile-wa" href="https://wa.me/79286404000" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" style="--i: 14"><svg aria-hidden="true"><use href="#i-whatsapp" /></svg></a>
+                  <a class="hs-dock-app tile-gl" href="#about" aria-label="О студии Govza Labs" style="--i: 15"><svg aria-hidden="true"><use href="#i-mark" /></svg></a>
+                </div>
+                <span class="hs-home-bar" aria-hidden="true"></span>
+              </div>
             </div>
+
+            <div class="float-card float-card--notify" aria-hidden="true">
+              <svg class="float-card-mark"><use href="#i-mark" /></svg>
+              <span class="float-card-body">
+                <span class="float-card-top"><b>Govza Labs</b><span>сейчас</span></span>
+                <span>Версия 1.0 опубликована в&nbsp;App&nbsp;Store</span>
+              </span>
+            </div>
+            <div class="float-card float-card--rating" aria-hidden="true">
+              <img src="/assets/img/icons/azkar.webp" alt="" width="44" height="44">
+              <span class="float-card-body">
+                <span class="float-card-rating">4,9 <span class="stars"><svg><use href="#i-star" /></svg><svg><use href="#i-star" /></svg><svg><use href="#i-star" /></svg><svg><use href="#i-star" /></svg><svg><use href="#i-star" /></svg></span></span>
+                <span>Azkar · 15&nbsp;000+ оценок</span>
+              </span>
+            </div>
+          </div>
         </div>
-    </header>
+      </div>
+    </section>
 
-    <main class="pt-16 relative z-10">
-        <main class="pt-16 relative z-10">
-            <!-- HERO -->
-            <section id="hero" class="relative py-24 md:py-32 overflow-hidden">
-                <div class="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-                    <div class="flex flex-col gap-2 md:gap-4 mb-12 items-start">
-                        <h1
-                            class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-gray-600 dark:text-gray-400 flex items-center gap-4 md:gap-6">
-                            <iconify-icon icon="solar:palette-bold"
-                                class="text-4xl md:text-7xl text-indigo-400 flex-shrink-0"></iconify-icon>
-                            <span>Дизайн.</span>
-                        </h1>
+    <!-- WORK -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>01</span>Работы</p>
+          <h2 class="h2" id="projects-title" data-reveal style="--d: 1">Избранные проекты</h2>
+          <p class="section-lead" data-reveal style="--d: 2">Больше 50&nbsp;проектов за&nbsp;10&nbsp;лет&nbsp;— от&nbsp;читалок и&nbsp;сервисов доставки до&nbsp;маркетплейсов и&nbsp;Telegram-ботов. Вот некоторые из&nbsp;них.</p>
+        </header>
 
-                        <h1
-                            class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-gray-600 dark:text-gray-400 flex items-center gap-4 md:gap-6">
-                            <iconify-icon icon="solar:code-square-bold"
-                                class="text-4xl md:text-7xl text-blue-400 flex-shrink-0"></iconify-icon>
-                            <span>Код.</span>
-                        </h1>
-
-                        <h1
-                            class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-gray-600 dark:text-gray-400 flex items-center gap-4 md:gap-6">
-                            <iconify-icon icon="solar:smartphone-2-bold"
-                                class="text-4xl md:text-7xl text-emerald-400 flex-shrink-0"></iconify-icon>
-                            <span>Продукт.</span>
-                        </h1>
-                    </div>
-
-                    <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium mb-10">
-                        Создаём быстрые, стабильные и красивые приложения для бизнеса и пользователей.
-                    </p>
-
-                    <button onclick="openCalculator()"
-                        class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gray-900 dark:bg-white dark:text-gray-900 font-brand rounded-full hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:focus:ring-white ring-offset-white dark:ring-offset-[#0f0f0f]">
-                        <span class="mr-2 text-lg">Рассчитать стоимость</span>
-                        <iconify-icon icon="solar:calculator-minimalistic-bold" class="text-xl transition-transform group-hover:rotate-12"></iconify-icon>
-                        <div
-                            class="absolute -inset-3 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-20 blur-lg transition-opacity duration-200 group-hover:opacity-40">
-                        </div>
-                    </button>
+        <div class="cases">
+          <article class="case case--wide" id="work-azkar" data-reveal>
+            <a class="case-core" href="/azkar/">
+              <div class="case-media media-azkar">
+                <img class="shot shot--l" src="/azkar/screens/screen-2.webp" alt="Экран виджета с напоминаниями в приложении Azkar" width="600" height="1304" loading="lazy" decoding="async">
+                <img class="shot shot--c" src="/azkar/screens/screen-1.webp" alt="Главный экран приложения Azkar" width="600" height="1304" loading="lazy" decoding="async">
+                <img class="shot shot--r" src="/azkar/screens/screen-3.webp" alt="Экран чтения азкара с аудио и переводом" width="600" height="1304" loading="lazy" decoding="async">
+              </div>
+              <div class="case-body">
+                <div class="case-head">
+                  <img class="app-icon" src="/assets/img/icons/azkar.webp" alt="" width="52" height="52" loading="lazy">
+                  <div>
+                    <h3 class="case-title">Azkar</h3>
+                    <p class="case-kicker">Ежедневные поминания и&nbsp;дуа</p>
+                  </div>
+                  <span class="case-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
                 </div>
-            </section>
+                <p class="case-desc">Кроссплатформенное приложение для чтения азкаров: напоминания, виджеты, счётчик повторений, перевод и&nbsp;аудио.</p>
+                <ul class="case-metrics">
+                  <li><strong>500&nbsp;000+</strong><span>установок</span></li>
+                  <li><strong>4,9</strong><span>средняя оценка, 15&nbsp;000+ оценок в&nbsp;App&nbsp;Store</span></li>
+                </ul>
+                <ul class="tags"><li>iOS</li><li>Android</li><li>API</li><li>UI/UX</li></ul>
+              </div>
+            </a>
+          </article>
 
-            <!-- MARQUEE -->
-            <section class="py-8 border-y border-[#e0e0e0] dark:border-[#2a2a2a] bg-white dark:bg-[#0f0f0f] overflow-hidden">
-                <div class="flex animate-marquee whitespace-nowrap">
-                    <div class="flex gap-12 items-center text-gray-500 font-medium text-sm tracking-widest uppercase">
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:swift"></iconify-icon>
-                            SwiftUI</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:kotlin"></iconify-icon>
-                            Kotlin</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:flutter"></iconify-icon>
-                            Flutter</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:react"></iconify-icon>
-                            React
-                            Native</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="lucide:pen-tool"></iconify-icon> UI/UX
-                            Дизайн</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:expo"></iconify-icon>
-                            Expo</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon
-                                icon="simple-icons:openapiinitiative"></iconify-icon> OpenAPI</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:graphql"></iconify-icon>
-                            GraphQL</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:firebase"></iconify-icon>
-                            Firebase</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:supabase"></iconify-icon>
-                            Supabase</span><span>•</span>
-                    </div>
-                    <!-- Duplicate -->
-                    <div
-                        class="flex gap-12 items-center text-gray-500 dark:text-gray-500 font-medium text-sm tracking-widest uppercase ml-12">
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:swift"></iconify-icon>
-                            SwiftUI</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:kotlin"></iconify-icon>
-                            Kotlin</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:flutter"></iconify-icon>
-                            Flutter</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:react"></iconify-icon>
-                            React
-                            Native</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="lucide:pen-tool"></iconify-icon> UI/UX
-                            Дизайн</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:expo"></iconify-icon>
-                            Expo</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon
-                                icon="simple-icons:openapiinitiative"></iconify-icon> OpenAPI</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:graphql"></iconify-icon>
-                            GraphQL</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:firebase"></iconify-icon>
-                            Firebase</span><span>•</span>
-                        <span class="flex items-center gap-2"><iconify-icon icon="simple-icons:supabase"></iconify-icon>
-                            Supabase</span><span>•</span>
-                    </div>
+          <article class="case case--narrow" id="work-govza" data-reveal style="--d: 1">
+            <a class="case-core" href="https://govza.app/download" target="_blank" rel="noopener">
+              <div class="case-media media-govza">
+                <img src="/assets/img/work/govza.webp" alt="Экраны приложения Govza Курьер: заказы, выбор курьера и статусы доставки" width="1200" height="1200" loading="lazy" decoding="async">
+              </div>
+              <div class="case-body">
+                <div class="case-head">
+                  <img class="app-icon" src="/assets/img/icons/govza.webp" alt="" width="52" height="52" loading="lazy">
+                  <div>
+                    <h3 class="case-title">Govza Курьер</h3>
+                    <p class="case-kicker">Доставка без лишних шагов</p>
+                  </div>
+                  <span class="case-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
                 </div>
-            </section>
+                <p class="case-desc">Сервер и&nbsp;кроссплатформенное приложение для курьерской службы: заказ в&nbsp;приложении или в&nbsp;Telegram, курьер на&nbsp;карте в&nbsp;реальном времени.</p>
+                <ul class="tags"><li>iOS</li><li>Android</li><li>Flutter</li><li>Сервер</li><li>UI/UX</li></ul>
+              </div>
+            </a>
+          </article>
 
-            <!-- PROJECTS -->
-            <section id="projects" class="py-24 relative overflow-hidden">
-                <div id="projects-container" class="overflow-x-auto mask-gradient no-scrollbar mx-6 md:mx-0 relative z-10">
-                    <div id="projects-track" class="flex gap-4 p-4">
-                        <!-- Project Card Fulan Travel -->
-                        <a href="https://fulan.travel/" target="_blank" rel="noopener noreferrer"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://fulan.travel/assets/gallery/quba-mosque.png"
-                                    alt="Fulan Travel"
-                                    class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Fulan+Travel'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://fulan.travel/assets/favicon-apple-touch-icon.png"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Иконка Fulan Travel">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Fulan Travel</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Разработали фирменный стиль, UX/UI-дизайн и адаптивный сайт сервиса для паломников.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-amber-50 !border-amber-200 !text-amber-700">
-                                        <iconify-icon icon="lucide:globe-2" class="text-lg"></iconify-icon>
-                                        Website
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                    <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                        <iconify-icon icon="lucide:code-2" class="text-lg"></iconify-icon>
-                                        Frontend
-                                    </span>
-                                    <span class="patio-tag !bg-rose-50 !border-rose-200 !text-rose-700">
-                                        <iconify-icon icon="lucide:shapes" class="text-lg"></iconify-icon>
-                                        Logo
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card Evetto -->
-                        <a href="https://apps.apple.com/app/id1631031225" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://storage.yandexcloud.net/avocado-apps/govza/evetto-ipad.jpg"
-                                    alt="Evetto"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Evetto'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/55/c4/a2/55c4a21d-0337-d06c-bb0c-6bc3aa6d7bec/AppIcon-0-0-1x_U007emarketing-0-0-0-10-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Evetto</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-4">Доска объявлений для турецкого рынка.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                        <iconify-icon icon="simple-icons:flutter" class="text-lg"></iconify-icon>
-                                        Flutter
-                                    </span>
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
-                                        API
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card New -->
-                        <a href="https://t.me/kutubist_bot" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://storage.yandexcloud.net/avocado-apps/govza/kutubist.png"
-                                    alt="Кутубист"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Kutubist'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://storage.yandexcloud.net/avocado-apps/govza/kutubist-icon.jpeg"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Кутубист</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-4">Telegram бот для поиска книг.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                        <iconify-icon icon="simple-icons:telegram" class="text-lg"></iconify-icon>
-                                        Telegram
-                                    </span>
-                                    <span class="patio-tag !bg-slate-100 !border-slate-300 !text-slate-700">
-                                        <iconify-icon icon="lucide:bot" class="text-lg"></iconify-icon>
-                                        Bot
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 1 -->
-                        <a href="https://govza.app/download" target="_blank" rel="noopener noreferrer"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://storage.yandexcloud.net/avocado-apps/govza/govza-screens.png"
-                                    alt="Govza"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Govza'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://storage.yandexcloud.net/avocado-apps/govza/govza-icon.png"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Govza Курьер</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Сервер и кроссплатформенное приложение
-                                    для
-                                    курьерской службы Govza.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                        <iconify-icon icon="simple-icons:flutter" class="text-lg"></iconify-icon>
-                                        Flutter
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 2 -->
-                        <a href="azkar/"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://storage.yandexcloud.net/avocado-apps/govza/azkar-app.jpg" alt="Azkar"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Azkar'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/2f/00/35/2f003504-1e73-84a7-083f-f8eb450176de/Placeholder.mill/400x400bb-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Azkar</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Кроссплатформенное приложение для чтения
-                                    Азкаров
-                                    с уникальным функционалом.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
-                                        API
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 3 -->
-                        <a href="https://apps.apple.com/app/baitech/id6444344786" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/2d/fc/f7/2dfcf730-a70c-fc2c-1d76-38eea5006d7e/88c9979c-d1b5-4d1c-9a61-5aecdd1b4cc7_1.png/460x996bb.webp"
-                                    alt="Baitech"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Baitech'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/37/f6/44/37f64480-a60e-3faf-c325-c69ab2a8fb65/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Baitech</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Приложение для поиска недвижимости в
-                                    Катаре.
-                                </p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                        <iconify-icon icon="simple-icons:flutter" class="text-lg"></iconify-icon>
-                                        Flutter
-                                    </span>
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
-                                        API Design
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 4 -->
-                        <a href="https://apps.apple.com/app/id1170337374" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/f1/62/fc/f162fc29-b851-3c53-d2b9-999a6186753a/pr_source.png/460x996bb.webp"
-                                    alt="mySalah"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=mySalah'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/f4/ee/06/f4ee0608-7e75-2f8b-9307-9db5697e818c/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-85-220.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">mySalah</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Простое и красивое приложение с
-                                    расписанием
-                                    молитв.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
-                                        API
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 5 -->
-                        <a href="https://apps.apple.com/app/id1524782738" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource125/v4/21/61/9b/21619b9d-5710-98ea-27be-799ccce5718d/37c5e990-840b-4675-a32d-2403a7ccc6ab_1_6.5.jpg/460x996bb.webp"
-                                    alt="Dar ul-Hadis"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Dar+ul-Hadis'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple122/v4/7e/bb/6b/7ebb6b6d-4235-ccd3-faa2-9d7dfbb7be86/AppIcon-0-0-1x_U007emarketing-0-0-0-10-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Дар уль-Хадис</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Приложение издательского дома с
-                                    возможностью
-                                    просмотра и покупки электронных книг.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 6 -->
-                        <a href="https://apps.apple.com/app/stone-md-kidney-stones/id1111168247" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a0/b9/9f/a0b99fa0-a364-1169-f2ea-624c0277fea8/mzl.euecdjpj.png/460x996bb.webp"
-                                    alt="Stone MD"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Stone+MD'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/41/e3/a4/41e3a4a5-ab27-f1b6-7c24-92edc9791f5b/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Stone MD</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Обновление приложения для отслеживания
-                                    здоровья при
-                                    болезнях, связанных с наличием камней в почках.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 7 -->
-                        <a href="https://apps.apple.com/app/id1169031640" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/89/ad/5f/89ad5f57-16dc-4953-6e8a-5332d369d7d5/pr_source.png/460x996bb.webp"
-                                    alt="Sahih"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Sahih'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/d9/21/e2/d921e233-bbe3-dbb0-8bc9-7ff11dc90278/AppIcon-0-1x_U007emarketing-0-0-85-220-7.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">«Сахих» имама аль-Бухари</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Сборник достоверных хадисов имама
-                                    аль-Бухари
-                                    с
-                                    удобным поиском и читалкой.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:shapes" class="text-lg"></iconify-icon>
-                                        Logo
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card 8 -->
-                        <a href="https://apple.co/49o97VI" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple114/v4/f3/5e/ef/f35eef72-8208-d232-a411-838c38b73a52/pr_source.png/460x996bb.webp"
-                                    alt="Arabia"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=Arabia'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple114/v4/12/a5/ae/12a5aed1-4d0d-726f-ce6e-8cb563850be4/AppIcon-0-1x_U007emarketing-0-0-85-220-0-7.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">Arabia</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-6 flex-grow">Книга «Арабский перед тобой» в красивом
-                                    приложении.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
-                                        API
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:shapes" class="text-lg"></iconify-icon>
-                                        Logo
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project Card New 2 -->
-                        <a href="https://apps.apple.com/app/id1124486725" target="_blank"
-                            class="patio-card group overflow-hidden flex flex-col">
-                            <div class="aspect-[4/3] overflow-hidden border-b border-[#e0e0e0] dark:border-[#2a2a2a]">
-                                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource115/v4/93/34/42/9334429a-b046-c96b-49b9-5b2a6f6cf5b0/6c43d192-9a54-42b6-85df-e183c2260a7f_6.5-inch.jpg/460x996bb.webp"
-                                    alt="200 вопросов"
-                                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.src='https://placehold.co/600x400/f0f0f0/999?text=200+Questions'">
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple115/v4/d8/73/15/d873151f-52d0-b52c-e904-73fb496ef38b/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/400x400ia-75.webp"
-                                        class="w-10 h-10 rounded-lg bg-[#f0f0f0]" alt="Icon">
-                                    <h3 class="font-bold text-lg text-black dark:text-white">200 вопросов</h3>
-                                </div>
-                                <p class="text-gray-700 dark:text-gray-400 text-sm mb-4">Читалка для книги «200 вопросов».</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                        <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                        iOS
-                                    </span>
-                                    <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                        <iconify-icon icon="simple-icons:android" class="text-lg"></iconify-icon>
-                                        Android
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                        UI/UX
-                                    </span>
-                                    <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                        <iconify-icon icon="lucide:shapes" class="text-lg"></iconify-icon>
-                                        Logo
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
+          <article class="case case--narrow" id="work-evetto" data-reveal>
+            <div class="case-core">
+              <div class="case-media media-evetto">
+                <img src="/assets/img/work/evetto.webp" alt="Заставка приложения Evetto: «Объявления на понятном языке»" width="900" height="1200" loading="lazy" decoding="async">
+              </div>
+              <div class="case-body">
+                <div class="case-head">
+                  <img class="app-icon" src="/assets/img/icons/evetto.webp" alt="" width="52" height="52" loading="lazy">
+                  <div>
+                    <h3 class="case-title">Evetto</h3>
+                    <p class="case-kicker">Объявления на&nbsp;понятном языке</p>
+                  </div>
                 </div>
-            </section>
-
-            <!-- ABOUT -->
-            <section id="about" class="py-44 bg-[#f9f9f9] dark:bg-[#141414] border-y border-[#e0e0e0] dark:border-[#2a2a2a] relative overflow-hidden">
-                <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                    <div>
-                        <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-black dark:text-white">
-                            Технологии<br>
-                            <span class="text-gray-500">и</span>
-                            эстетика
-                        </h2>
-                    </div>
-                    <div class="space-y-6 text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                        <p>
-                            Мы считаем, что приложения должны быть не только полезны, но и приятны в использовании.
-                            Делаем
-                            акцент на <span class="text-black dark:text-white font-medium">чистую архитектуру</span>, <span
-                                class="text-black dark:text-white font-medium">высокую скорость</span> работы и <span
-                                class="text-black dark:text-white font-medium">интерфейсы</span>, которые интуитивно понятны.
-                        </p>
-                        <p>
-                            Мы свободно работаем со всем мобильным стеком.
-                        </p>
-                        <div class="flex flex-wrap gap-3 text-sm font-medium text-gray-800">
-                            <!-- SwiftUI -->
-                            <span class="patio-tag !bg-orange-50 !border-orange-200 !text-orange-700">
-                                <iconify-icon icon="simple-icons:swift" class="text-lg"></iconify-icon>
-                                SwiftUI
-                            </span>
-                            <!-- UIKit -->
-                            <span class="patio-tag !bg-slate-50 !border-slate-200 !text-slate-700">
-                                <iconify-icon icon="simple-icons:apple" class="text-lg"></iconify-icon>
-                                UIKit
-                            </span>
-                            <!-- Kotlin -->
-                            <span class="patio-tag !bg-purple-50 !border-purple-200 !text-purple-700">
-                                <iconify-icon icon="simple-icons:kotlin" class="text-lg"></iconify-icon>
-                                Kotlin
-                            </span>
-                            <!-- Flutter -->
-                            <span class="patio-tag !bg-sky-50 !border-sky-200 !text-sky-700">
-                                <iconify-icon icon="simple-icons:flutter" class="text-lg"></iconify-icon>
-                                Flutter
-                            </span>
-                            <!-- Dart -->
-                            <span class="patio-tag !bg-cyan-50 !border-cyan-200 !text-cyan-700">
-                                <iconify-icon icon="simple-icons:dart" class="text-lg"></iconify-icon>
-                                Dart
-                            </span>
-                            <!-- React Native -->
-                            <span class="patio-tag !bg-blue-50 !border-blue-200 !text-blue-700">
-                                <iconify-icon icon="simple-icons:react" class="text-lg"></iconify-icon>
-                                React Native
-                            </span>
-                            <!-- UI/UX -->
-                            <span class="patio-tag !bg-indigo-50 !border-indigo-200 !text-indigo-700">
-                                <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
-                                UI/UX
-                            </span>
-                            <!-- Expo -->
-                            <span class="patio-tag !bg-gray-100 !border-gray-300 !text-gray-800">
-                                <iconify-icon icon="simple-icons:expo" class="text-lg"></iconify-icon>
-                                Expo
-                            </span>
-                            <!-- OpenAPI -->
-                            <span class="patio-tag !bg-green-50 !border-green-200 !text-green-700">
-                                <iconify-icon icon="simple-icons:openapiinitiative" class="text-lg"></iconify-icon>
-                                OpenAPI
-                            </span>
-                            <!-- GraphQL -->
-                            <span class="patio-tag !bg-fuchsia-50 !border-fuchsia-200 !text-fuchsia-700">
-                                <iconify-icon icon="simple-icons:graphql" class="text-lg"></iconify-icon>
-                                GraphQL
-                            </span>
-                            <!-- Firebase -->
-                            <span class="patio-tag !bg-amber-50 !border-amber-200 !text-amber-700">
-                                <iconify-icon icon="simple-icons:firebase" class="text-lg"></iconify-icon>
-                                Firebase
-                            </span>
-                            <!-- Supabase -->
-                            <span class="patio-tag !bg-emerald-50 !border-emerald-200 !text-emerald-700">
-                                <iconify-icon icon="simple-icons:supabase" class="text-lg"></iconify-icon>
-                                Supabase
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CONTACT -->
-            <section id="contact" class="py-24 relative overflow-hidden">
-                <div class="container mx-auto px-6 relative z-10">
-                    <div class="max-w-4xl mx-auto text-center mb-16">
-                        <h2 class="text-4xl font-bold tracking-tight mb-4 text-black dark:text-white">Хотите обсудить проект?</h2>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                        <a href="https://wa.me/+79286404000" target="_blank"
-                            class="patio-card p-8 flex flex-col items-center justify-center gap-4 group">
-                            <div
-                                class="w-12 h-12 flex items-center justify-center rounded-full bg-[#25D366]/10 text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="currentColor" class="w-6 h-6">
-                                    <path
-                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold group-hover:text-black dark:group-hover:text-white transition-colors text-black dark:text-white">WhatsApp</span>
-                        </a>
-                        <a href="https://t.me/avoc0der" target="_blank"
-                            class="patio-card p-8 flex flex-col items-center justify-center gap-4 group">
-                            <div
-                                class="w-12 h-12 flex items-center justify-center rounded-full bg-[#229ED9]/10 text-[#229ED9] group-hover:bg-[#229ED9] group-hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="currentColor" class="w-6 h-6">
-                                    <path
-                                        d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold group-hover:text-black dark:group-hover:text-white transition-colors text-black dark:text-white">Telegram</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-gray-50 dark:from-[#111] dark:via-[#0f0f0f] dark:to-[#111]">
-            <div class="container mx-auto px-6 py-20 relative z-10">
-                <!-- Main Footer Content -->
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-                    <!-- Brand Section -->
-                    <div class="md:col-span-5">
-                        <div class="flex items-center gap-3 mb-6 group">
-                            <div
-                                class="w-12 h-12 relative transform transition-transform group-hover:scale-110 group-hover:rotate-12 duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                                    class="w-full h-full drop-shadow-lg" fill="none">
-                                    <defs><linearGradient id="gl-mark-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-1)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
-                                </svg>
-                            </div>
-                            <span class="font-brand font-bold text-2xl text-black dark:text-white">Govza Labs</span>
-                        </div>
-
-                        <!-- Stats -->
-                        <div class="flex gap-8 text-sm">
-                            <div>
-                                <div class="text-2xl font-bold text-black dark:text-white mb-1">50+</div>
-                                <div class="text-gray-500">Проектов</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold text-black dark:text-white mb-1">10+</div>
-                                <div class="text-gray-500">Лет опыта</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Social Links -->
-                    <div class="md:col-span-7 flex flex-col md:items-end">
-                        <div class="flex flex-col gap-4 md:items-end">
-                            <h3 class="font-bold text-black dark:text-white text-lg">Контакты</h3>
-                            <div class="flex flex-col gap-2 md:items-end">
-                                <a href="https://wa.me/+79286404000" target="_blank"
-                                    class="text-gray-500 hover:text-black dark:hover:text-white transition-colors font-medium">WhatsApp</a>
-                                <a href="https://t.me/avoc0der" target="_blank"
-                                    class="text-gray-500 hover:text-black dark:hover:text-white transition-colors font-medium">Telegram</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bottom Bar -->
-                <div class="pt-8 border-t border-gray-200 dark:border-[#2a2a2a]">
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div class="flex items-center gap-2 text-sm text-gray-500">
-                            <iconify-icon icon="lucide:copyright" class="text-base"></iconify-icon>
-                            <span class="font-mono">2026 Govza Labs. Все права защищены.</span>
-                        </div>
-                    </div>
-                </div>
+                <p class="case-desc">Доска объявлений для турецкого рынка: дизайн, мобильные приложения для iOS и&nbsp;Android и&nbsp;API.</p>
+                <ul class="tags"><li>Flutter</li><li>iOS</li><li>Android</li><li>API</li><li>UI/UX</li></ul>
+              </div>
             </div>
-        </footer>
+          </article>
 
-        <script>
-            // Mobile menu toggle
-            const btn = document.getElementById('mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-            });
-
-            // Close menu on click
-            menu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                });
-            });
-
-            // Dark Mode Toggle
-            const darkToggle = document.getElementById('dark-mode-toggle');
-            const iconSun = document.getElementById('icon-sun');
-            const iconMoon = document.getElementById('icon-moon');
-
-            function applyDarkMode(isDark) {
-                document.documentElement.classList.toggle('dark', isDark);
-                iconSun.classList.toggle('hidden', !isDark);
-                iconMoon.classList.toggle('hidden', isDark);
-            }
-
-            // Init: check localStorage, fallback to system preference
-            const stored = localStorage.getItem('theme');
-            if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                applyDarkMode(true);
-            }
-
-            darkToggle.addEventListener('click', () => {
-                const isDark = !document.documentElement.classList.contains('dark');
-                applyDarkMode(isDark);
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            });
-        </script>
-        <!-- Background Particles Script -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const track = document.getElementById('projects-track');
-                const container = document.getElementById('projects-container');
-                
-                if (track && container) {
-                    // Clone content for infinite loop effect
-                    const content = track.innerHTML;
-                    track.innerHTML = content + content;
-
-                    let isPaused = false;
-                    const speed = 0.5; // Adjust speed here (higher = faster)
-
-                    function animate() {
-                        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
-                        
-                        if (isDesktop) {
-                            // Handle infinite loop wrapping
-                            const halfWidth = track.scrollWidth / 2;
-                            
-                            if (container.scrollLeft >= halfWidth) {
-                                container.scrollLeft -= halfWidth;
-                            } else if (container.scrollLeft <= 0) {
-                                // Optional: handle backward scroll wrap if needed, 
-                                // but for now we focus on forward auto-scroll loop.
-                            }
-
-                            if (!isPaused) {
-                                container.scrollLeft += speed;
-                            }
-                        }
-                        // Mobile handles its own scrolling via overflow-x-auto
-                        
-                        requestAnimationFrame(animate);
-                    }
-
-                    container.addEventListener('mouseenter', () => isPaused = true);
-                    container.addEventListener('mouseleave', () => isPaused = false);
-                    
-                    // Start animation
-                    animate();
-                }
-
-
-                // Sections to add particles to
-                const sections = document.querySelectorAll('#hero, #projects, #contact');
-
-                // Colors matching the brand/theme
-                const colors = ['bg-green-500', 'bg-blue-500', 'bg-orange-500', 'bg-purple-500', 'bg-yellow-500'];
-
-                sections.forEach(section => {
-                    const container = document.createElement('div');
-                    container.className = 'absolute inset-0 z-0 pointer-events-none overflow-hidden';
-                    section.insertBefore(container, section.firstChild);
-
-                    // Create particles for this section
-                    // Density based on section height roughly, or fixed number
-                    const particleCount = 15;
-
-                    for (let i = 0; i < particleCount; i++) {
-                        const el = document.createElement('div');
-
-                        // Random properties
-                        const size = Math.random() * 12 + 6; // 6px to 18px (larger)
-                        const color = colors[Math.floor(Math.random() * colors.length)];
-                        const left = Math.random() * 100;
-                        const top = Math.random() * 100;
-                        const delay = Math.random() * 10;
-                        const duration = 10 + Math.random() * 15; // 10s to 25s (faster)
-
-                        // Apply classes and styles
-                        // Opacity handled in keyframes now for pulsing, but base class needed
-                        el.className = `absolute rounded-full ${color} animate-float-particle`;
-
-                        // Randomly make some squares or triangles (clip-path for triangle)
-                        const shape = Math.random();
-                        if (shape > 0.7 && shape < 0.9) {
-                            el.classList.remove('rounded-full');
-                            el.classList.add('rounded-md'); // Square/Rectangle
-                        } else if (shape >= 0.9) {
-                            el.classList.remove('rounded-full');
-                            el.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)'; // Triangle
-                            el.style.borderRadius = '0';
-                        }
-
-                        el.style.width = `${size}px`;
-                        el.style.height = `${size}px`;
-                        el.style.left = `${left}%`;
-                        el.style.top = `${top}%`;
-                        el.style.animationDelay = `-${delay}s`;
-                        el.style.animationDuration = `${duration}s`;
-
-                        container.appendChild(el);
-                    }
-                });
-            });
-        </script>
-    <!-- CALCULATOR MODAL -->
-    <div id="calculator-modal" class="fixed inset-0 z-[9999] hidden" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
-        <!-- Backdrop -->
-        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop">
+          <article class="case case--wide" id="work-fulan" data-reveal style="--d: 1">
+            <a class="case-core" href="https://fulan.travel/" target="_blank" rel="noopener">
+              <div class="case-media media-fulan">
+                <div class="browser">
+                  <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>fulan.travel</span></div>
+                  <img src="/assets/img/work/fulan.webp" alt="Главная страница сайта Fulan Travel" width="1600" height="1000" loading="lazy" decoding="async">
+                </div>
+              </div>
+              <div class="case-body">
+                <div class="case-head">
+                  <img class="app-icon" src="/assets/img/icons/fulan.webp" alt="" width="52" height="52" loading="lazy">
+                  <div>
+                    <h3 class="case-title">Fulan Travel</h3>
+                    <p class="case-kicker">Хадж · Умра · Сервис</p>
+                  </div>
+                  <span class="case-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+                </div>
+                <p class="case-desc">Фирменный стиль, UX/UI-дизайн и&nbsp;адаптивный сайт сервиса для паломников.</p>
+                <ul class="tags"><li>Сайт</li><li>UI/UX</li><li>Фронтенд</li><li>Логотип</li></ul>
+              </div>
+            </a>
+          </article>
         </div>
 
-        <div class="fixed inset-0 z-10 overflow-y-auto pt-16 md:pt-0">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <!-- Modal Panel -->
-                <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-[#1a1a1a] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    id="modal-panel">
-                    <button onclick="closeCalculator()" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600 transition-colors">
-                        <iconify-icon icon="solar:close-circle-bold" class="text-2xl"></iconify-icon>
-                    </button>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 h-auto md:h-[80vh] md:max-h-[900px] overflow-hidden rounded-3xl">
-                        <!-- Left Side: Options -->
-                        <div class="md:col-span-2 p-6 md:p-10 md:overflow-y-auto bg-gray-50/50 dark:bg-[#141414]/50">
-                            <h2 class="text-3xl font-black font-brand text-gray-900 dark:text-white mb-2">Калькулятор проекта</h2>
-                            <p class="text-gray-500 mb-8">Выберите параметры вашего будущего приложения</p>
-
-                            <form id="calculator-form" class="space-y-10">
-                                <!-- Categories -->
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <iconify-icon icon="solar:layers-minimalistic-bold" class="text-indigo-600"></iconify-icon>
-                                        Тип проекта
-                                    </h3>
-                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="ecommerce" class="peer sr-only" onchange="selectCategory('ecommerce')">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-indigo-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:cart-large-2-bold" class="text-xl text-gray-400 peer-checked:text-indigo-600"></iconify-icon>
-                                                <div class="flex flex-col gap-0.5">
-                                                    <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-indigo-900">Маркетплейс / eCommerce</span>
-                                                    <span class="text-[10px] text-gray-500 leading-tight">Каталог, корзина, оплата</span>
-                                                </div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="services" class="peer sr-only" onchange="selectCategory('services')">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-orange-200 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:map-point-bold" class="text-xl text-gray-400 peer-checked:text-orange-600"></iconify-icon>
-                                                <div class="flex flex-col gap-0.5">
-                                                    <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-orange-900">Доставка / Услуги</span>
-                                                    <span class="text-[10px] text-gray-500 leading-tight">Доставка, бронь, курьеры</span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="education" class="peer sr-only" onchange="selectCategory('education')">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-teal-200 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:book-bookmark-bold" class="text-xl text-gray-400 peer-checked:text-teal-600"></iconify-icon>
-                                                <div class="flex flex-col gap-0.5">
-                                                    <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-teal-900">Онлайн-обучение</span>
-                                                    <span class="text-[10px] text-gray-500 leading-tight">Курсы, уроки, личный кабинет</span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="community" class="peer sr-only" onchange="selectCategory('community')">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-fuchsia-200 peer-checked:border-fuchsia-500 peer-checked:bg-fuchsia-50 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl text-gray-400 peer-checked:text-fuchsia-600"></iconify-icon>
-                                                    <div class="flex flex-col gap-0.5">
-                                                        <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-fuchsia-900">Сообщество / Соцсеть</span>
-                                                        <span class="text-[10px] text-gray-500 leading-tight">Чаты, лента, профили</span>
-                                                    </div>
-                                            </div>
-                                        </label>
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="b2b" class="peer sr-only" onchange="selectCategory('b2b')">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-blue-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:case-bold" class="text-xl text-gray-400 peer-checked:text-blue-600"></iconify-icon>
-                                                <div class="flex flex-col gap-0.5">
-                                                    <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-blue-900">B2B / Внутренние сервисы</span>
-                                                    <span class="text-[10px] text-gray-500 leading-tight">CRM, склад, процессы</span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="category" value="custom" class="peer sr-only" onchange="selectCategory('custom')" checked>
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-gray-300 peer-checked:border-gray-900 peer-checked:bg-gray-100 transition-all text-center h-full flex flex-col items-center justify-center gap-1">
-                                                <iconify-icon icon="solar:magic-stick-3-bold" class="text-xl text-gray-400 peer-checked:text-gray-900"></iconify-icon>
-                                                <div class="flex flex-col gap-0.5">
-                                                    <span class="text-[11px] font-black text-gray-800 leading-tight peer-checked:text-gray-900">Другое / Свой проект</span>
-                                                    <span class="text-[10px] text-gray-500 leading-tight">Выберу вручную</span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Platform -->
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <iconify-icon icon="solar:smartphone-2-bold" class="text-indigo-500"></iconify-icon>
-                                        Платформа
-                                    </h3>
-                                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
-                                        <label class="cursor-pointer group relative">
-                                            <input type="checkbox" name="platform" value="5000" data-days="68" class="peer sr-only" data-name="iOS Приложение">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-indigo-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 transition-all">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="simple-icons:apple" class="text-xl text-gray-600 peer-checked:text-indigo-600"></iconify-icon>
-                                                    <span class="text-indigo-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$5,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">iOS Приложение</div>
-                                                <div class="text-xs text-gray-500 mt-1">Swift / SwiftUI</div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="checkbox" name="platform" value="5000" data-days="68" class="peer sr-only" data-name="Android Приложение">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-green-200 peer-checked:border-green-500 peer-checked:bg-green-50 transition-all">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="simple-icons:android" class="text-xl text-gray-600 peer-checked:text-green-600"></iconify-icon>
-                                                    <span class="text-green-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$5,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Android Приложение</div>
-                                                <div class="text-xs text-gray-500 mt-1">Kotlin / Jetpack Compose</div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="checkbox" name="platform" value="8000" data-days="90" class="peer sr-only" data-name="Кроссплатформа">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-sky-200 peer-checked:border-sky-500 peer-checked:bg-sky-50 transition-all">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <div class="flex gap-2">
-                                                        <iconify-icon icon="simple-icons:flutter" class="text-xl text-gray-600 peer-checked:text-sky-600"></iconify-icon>
-                                                        <iconify-icon icon="simple-icons:react" class="text-xl text-gray-600 peer-checked:text-sky-600"></iconify-icon>
-                                                    </div>
-                                                    <span class="text-sky-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$8,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Кроссплатформа</div>
-                                                <div class="text-xs text-gray-500 mt-1">Flutter / React Native</div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="checkbox" name="platform" value="5000" data-days="45" class="peer sr-only" data-name="Веб-приложение">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-cyan-200 peer-checked:border-cyan-500 peer-checked:bg-cyan-50 transition-all">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="solar:laptop-minimalistic-bold" class="text-xl text-gray-600 peer-checked:text-cyan-600"></iconify-icon>
-                                                    <span class="text-cyan-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$5,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Веб-приложение</div>
-                                                <div class="text-xs text-gray-500 mt-1">React / Next.js</div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Design -->
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <iconify-icon icon="solar:palette-bold" class="text-pink-500"></iconify-icon>
-                                        Дизайн
-                                    </h3>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="design" value="0" data-days="0" class="peer sr-only" data-name="Есть макет" checked>
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-gray-300 peer-checked:border-gray-900 peer-checked:bg-gray-50 transition-all h-full">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="solar:file-check-bold" class="text-xl text-gray-600 peer-checked:text-gray-900"></iconify-icon>
-                                                    <span class="text-gray-900 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$0</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Есть макет</div>
-                                                <div class="text-xs text-gray-500 mt-1">Дизайн уже готов</div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="design" value="1000" data-days="15" class="peer sr-only" data-name="Базовый дизайн">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-pink-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 transition-all h-full">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="solar:ruler-pen-bold" class="text-xl text-gray-600 peer-checked:text-pink-600"></iconify-icon>
-                                                    <span class="text-pink-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$1,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Базовый / Шаблон</div>
-                                                <div class="text-xs text-gray-500 mt-1">Чистый, стандартный UI</div>
-                                            </div>
-                                        </label>
-
-                                        <label class="cursor-pointer group relative">
-                                            <input type="radio" name="design" value="5000" data-days="45" class="peer sr-only" data-name="Премиум дизайн">
-                                            <div class="p-3 rounded-xl bg-white border-2 border-gray-200 hover:border-purple-200 peer-checked:border-purple-500 peer-checked:bg-purple-50 transition-all h-full">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <iconify-icon icon="solar:magic-stick-3-bold" class="text-xl text-gray-600 peer-checked:text-purple-600"></iconify-icon>
-                                                    <span class="text-purple-600 font-bold opacity-0 peer-checked:opacity-100 transition-opacity">$5,000</span>
-                                                </div>
-                                                <div class="font-bold text-gray-900 text-sm">Премиум UI/UX</div>
-                                                <div class="text-xs text-gray-500 mt-1">Уникальный, анимированный</div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Features -->
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <iconify-icon icon="solar:widget-5-bold" class="text-orange-500"></iconify-icon>
-                                        Функции
-                                    </h3>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        <!-- Essentials -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="500" data-days="8" data-name="Авторизация" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Авторизация (Email/Social)</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="500" data-days="6" data-name="Push-уведомления" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Push-уведомления</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="300" data-days="3" data-name="Аналитика" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Аналитика</span>
-                                        </label>
-
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="2500" data-days="23" data-name="AI Интеграция" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Интеграция ИИ</span>
-                                        </label>
-
-                                        <!-- Monetization -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1000" data-days="15" data-name="Платежи" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Платежи (Apple/Google Pay / ЮKassa)</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1300" data-days="18" data-name="Рекомендации / персонализация" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Рекомендации / персонализация</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1500" data-days="21" data-name="Подписки" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Подписки (App Store / Google Play / ЮKassa)</span>
-                                        </label>
-
-                                        <!-- Social -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1500" data-days="30" data-name="Чат" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Чат / Сообщения</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1500" data-days="23" data-name="Лента новостей" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Лента новостей</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="800" data-days="12" data-name="Профили пользователей" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Профили пользователей</span>
-                                        </label>
-
-                                        <!-- Location -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1000" data-days="15" data-name="Карты" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Карты (Google/Apple)</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1500" data-days="23" data-name="GPS Трекинг" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">GPS Трекинг</span>
-                                        </label>
-
-                                        <!-- Content -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="800" data-days="12" data-name="Загрузка медиа" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Загрузка фото/видео</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="800" data-days="9" data-name="Поиск" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Поиск и фильтры</span>
-                                        </label>
-
-                                        <!-- Advanced -->
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="2000" data-days="30" data-name="Админ-панель" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Админ-панель</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1000" data-days="15" data-name="Мультиязычность" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Мультиязычность</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="500" data-days="8" data-name="Темная тема" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Темная тема</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="feature" value="1500" data-days="15" data-name="Оффлайн режим" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Оффлайн режим</span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Extras -->
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <iconify-icon icon="solar:box-bold" class="text-teal-500"></iconify-icon>
-                                        Дополнительно
-                                    </h3>
-                                    <div class="space-y-3">
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="extra" value="20" data-days="0" data-name="Доменное имя" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Доменное имя (.com / .ru)</span>
-                                            <span class="text-xs font-bold text-gray-500">+$20</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="extra" value="500" data-days="11" data-name="Публикация в сторах" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Публикация в App Store / Google Play</span>
-                                            <span class="text-xs font-bold text-gray-500">+$500</span>
-                                        </label>
-                                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
-                                            <input type="checkbox" name="extra" value="450" data-days="10" data-name="Регистрация LLC для App Store и Google Play" class="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                            <span class="ml-3 flex-grow text-sm font-medium text-gray-900">Регистрация LLC для App Store и Google Play</span>
-                                            <span class="text-xs font-bold text-gray-500">+$450</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Right Side: Summary -->
-                        <div class="bg-gray-900 text-white p-6 md:p-10 flex flex-col justify-between relative overflow-hidden">
-                            <!-- Decorative blobs -->
-                            <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-                            <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-
-                            <div class="relative z-10 flex-grow flex flex-col">
-                                <h3 class="text-xl font-bold mb-6 text-gray-200">Итоговая оценка</h3>
-                                
-                                <div id="selected-items" class="space-y-2 mb-8 text-sm text-gray-400 overflow-y-auto flex-grow max-h-[400px] pr-2">
-                                    <p class="italic opacity-50">Выберите параметры слева...</p>
-                                </div>
-                            </div>
-
-                            <div class="relative z-10 border-t border-gray-800 pt-6 mt-4">
-                                <div class="flex justify-between items-end mb-4">
-                                    <div>
-                                        <div class="text-sm text-gray-400 mb-1">Срок разработки</div>
-                                        <div class="text-2xl font-bold text-white flex items-center gap-2">
-                                            <iconify-icon icon="solar:clock-circle-bold" class="text-indigo-400"></iconify-icon>
-                                            <span id="total-time">~1 месяц</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="text-sm text-gray-400 mb-1">Примерная стоимость</div>
-                                <div class="text-4xl md:text-5xl font-black font-brand tracking-tight flex items-baseline gap-1">
-                                    $<span id="total-price">0</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-4 leading-relaxed">
-                                    *Стоимость и сроки указаны ориентировочно, чтобы понять порядок цифр. Финальные значения посчитаем после детального ТЗ.
-                                </p>
-                                <button onclick="showContactOptions()" class="w-full mt-8 bg-white text-gray-900 font-bold py-4 px-6 rounded-xl hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                                    <span>Обсудить проект</span>
-                                    <iconify-icon icon="solar:arrow-right-bold"></iconify-icon>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
+        <div class="archive" data-archive>
+          <div class="archive-head" data-reveal>
+            <h3 class="h3">Другие проекты</h3>
+            <p class="archive-note">Оценки&nbsp;— средние в&nbsp;российском App&nbsp;Store</p>
+          </div>
+          <ul class="archive-list">
+            <li data-reveal>
+              <div class="archive-row" id="work-baitech" data-preview="/assets/img/work/baitech.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/baitech.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">BaiTech</span>
+                <span class="archive-desc">Поиск недвижимости в&nbsp;Катаре</span>
+                <span class="archive-tags">Flutter · iOS · Android · API</span>
+                <span class="archive-meta"></span>
+                <span class="archive-arrow" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-sahih" href="https://apps.apple.com/app/id1169031640" target="_blank" rel="noopener" data-preview="/assets/img/work/sahih.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/sahih.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">«Сахих» аль-Бухари</span>
+                <span class="archive-desc">Сборник достоверных хадисов с&nbsp;удобным поиском и&nbsp;читалкой</span>
+                <span class="archive-tags">iOS · Android · UI/UX · Логотип</span>
+                <span class="archive-meta"><svg aria-hidden="true"><use href="#i-star" /></svg>4,8</span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-darulhadis" href="https://apps.apple.com/app/id1524782738" target="_blank" rel="noopener" data-preview="/assets/img/work/darulhadis.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/darulhadis.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">Дар уль-Хадис</span>
+                <span class="archive-desc">Приложение издательского дома: каталог и&nbsp;покупка электронных книг</span>
+                <span class="archive-tags">iOS · Android · UI/UX</span>
+                <span class="archive-meta"></span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-mysalah" href="https://apps.apple.com/app/id1170337374" target="_blank" rel="noopener" data-preview="/assets/img/work/mysalah.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/mysalah.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">mySalah</span>
+                <span class="archive-desc">Простое и&nbsp;красивое приложение с&nbsp;расписанием молитв</span>
+                <span class="archive-tags">iOS · API</span>
+                <span class="archive-meta"><svg aria-hidden="true"><use href="#i-star" /></svg>4,8</span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <div class="archive-row" id="work-arabia" data-preview="/assets/img/work/arabia.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/arabia.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">Arabia</span>
+                <span class="archive-desc">Книга «Арабский перед тобой» в&nbsp;удобном приложении</span>
+                <span class="archive-tags">iOS · API · UI/UX · Логотип</span>
+                <span class="archive-meta"></span>
+                <span class="archive-arrow" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-q200" href="https://apps.apple.com/app/id1124486725" target="_blank" rel="noopener" data-preview="/assets/img/work/q200.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/q200.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">200 вопросов</span>
+                <span class="archive-desc">Читалка для книги «200 вопросов по&nbsp;основам Ислама»</span>
+                <span class="archive-tags">iOS · Android · UI/UX · Логотип</span>
+                <span class="archive-meta"><svg aria-hidden="true"><use href="#i-star" /></svg>4,7</span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-stonemd" href="https://apps.apple.com/app/stone-md-kidney-stones/id1111168247" target="_blank" rel="noopener" data-preview="/assets/img/work/stonemd.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/stonemd.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">Stone MD</span>
+                <span class="archive-desc">Обновление приложения для пациентов с&nbsp;мочекаменной болезнью</span>
+                <span class="archive-tags">iOS</span>
+                <span class="archive-meta"><svg aria-hidden="true"><use href="#i-star" /></svg>4,8</span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="archive-row" id="work-kutubist" href="https://t.me/kutubist_bot" target="_blank" rel="noopener" data-preview="/assets/img/work/kutubist.webp">
+                <img class="app-icon app-icon--sm" src="/assets/img/icons/kutubist.webp" alt="" width="44" height="44" loading="lazy">
+                <span class="archive-name">Кутубист</span>
+                <span class="archive-desc">Telegram-бот для поиска книг</span>
+                <span class="archive-tags">Telegram · Бот</span>
+                <span class="archive-meta"></span>
+                <span class="archive-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section section--alt" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>02</span>Услуги</p>
+          <h2 class="h2" id="services-title" data-reveal style="--d: 1">Ведём продукт целиком или подключаемся на&nbsp;нужном этапе</h2>
+        </header>
+
+        <ol class="services">
+          <li class="service" data-reveal>
+            <span class="service-num">01</span>
+            <h3 class="service-title">iOS-приложения</h3>
+            <p>Нативная разработка на&nbsp;Swift: быстрые приложения, которые ощущаются частью системы.</p>
+            <ul class="chips"><li>Swift</li><li>SwiftUI</li><li>UIKit</li></ul>
+          </li>
+          <li class="service" data-reveal style="--d: 1">
+            <span class="service-num">02</span>
+            <h3 class="service-title">Android-приложения</h3>
+            <p>Нативная разработка на&nbsp;Kotlin с&nbsp;современным интерфейсом на&nbsp;Jetpack Compose.</p>
+            <ul class="chips"><li>Kotlin</li><li>Jetpack Compose</li></ul>
+          </li>
+          <li class="service" data-reveal>
+            <span class="service-num">03</span>
+            <h3 class="service-title">Кроссплатформа</h3>
+            <p>Одно приложение для iOS и&nbsp;Android&nbsp;— когда важны сроки и&nbsp;бюджет.</p>
+            <ul class="chips"><li>Flutter</li><li>Dart</li><li>React Native</li><li>Expo</li></ul>
+          </li>
+          <li class="service" data-reveal style="--d: 1">
+            <span class="service-num">04</span>
+            <h3 class="service-title">Веб и&nbsp;сайты</h3>
+            <p>Веб-приложения, личные кабинеты и&nbsp;адаптивные сайты.</p>
+            <ul class="chips"><li>React</li><li>Next.js</li></ul>
+          </li>
+          <li class="service" data-reveal>
+            <span class="service-num">05</span>
+            <h3 class="service-title">Дизайн и&nbsp;айдентика</h3>
+            <p>Сценарии, интерфейсы и&nbsp;прототипы, а&nbsp;ещё логотипы и&nbsp;фирменный стиль.</p>
+            <ul class="chips"><li>UI/UX</li><li>Прототипы</li><li>Логотипы</li></ul>
+          </li>
+          <li class="service" data-reveal style="--d: 1">
+            <span class="service-num">06</span>
+            <h3 class="service-title">Сервер и&nbsp;API</h3>
+            <p>Бэкенд, админ-панели и&nbsp;интеграции: платежи, карты, push-уведомления, ИИ.</p>
+            <ul class="chips"><li>OpenAPI</li><li>GraphQL</li><li>Firebase</li><li>Supabase</li></ul>
+          </li>
+          <li class="service" data-reveal>
+            <span class="service-num">07</span>
+            <h3 class="service-title">Telegram-боты</h3>
+            <p>Боты для поиска, каталогов и&nbsp;приёма заказов прямо в&nbsp;мессенджере.</p>
+            <ul class="chips"><li>Telegram Bot API</li></ul>
+          </li>
+          <li class="service" data-reveal style="--d: 1">
+            <span class="service-num">08</span>
+            <h3 class="service-title">Публикация и&nbsp;поддержка</h3>
+            <p>Выпускаем в&nbsp;App&nbsp;Store и&nbsp;Google&nbsp;Play, помогаем зарегистрировать компанию для сторов, выпускаем обновления.</p>
+            <ul class="chips"><li>App Store</li><li>Google Play</li></ul>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section" id="process" aria-labelledby="process-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>03</span>Процесс</p>
+          <h2 class="h2" id="process-title" data-reveal style="--d: 1">Как мы работаем</h2>
+        </header>
+
+        <ol class="steps">
+          <li class="step" data-reveal>
+            <span class="step-num">1</span>
+            <h3 class="step-title">Знакомство</h3>
+            <p>Обсуждаем идею, аудиторию и&nbsp;ограничения. Даём первую оценку сроков и&nbsp;бюджета.</p>
+            <p class="step-out">Итог: оценка и&nbsp;план</p>
+          </li>
+          <li class="step" data-reveal style="--d: 1">
+            <span class="step-num">2</span>
+            <h3 class="step-title">Проектирование</h3>
+            <p>Собираем требования в&nbsp;ТЗ, продумываем сценарии и&nbsp;структуру экранов.</p>
+            <p class="step-out">Итог: ТЗ и&nbsp;карта экранов</p>
+          </li>
+          <li class="step" data-reveal style="--d: 2">
+            <span class="step-num">3</span>
+            <h3 class="step-title">Дизайн</h3>
+            <p>Рисуем интерфейс и&nbsp;интерактивный прототип&nbsp;— продукт видно ещё до&nbsp;начала разработки.</p>
+            <p class="step-out">Итог: макеты и&nbsp;прототип</p>
+          </li>
+          <li class="step" data-reveal style="--d: 3">
+            <span class="step-num">4</span>
+            <h3 class="step-title">Разработка</h3>
+            <p>Пишем приложение и&nbsp;серверную часть, регулярно присылаем тестовые сборки.</p>
+            <p class="step-out">Итог: рабочие сборки</p>
+          </li>
+          <li class="step" data-reveal style="--d: 4">
+            <span class="step-num">5</span>
+            <h3 class="step-title">Запуск</h3>
+            <p>Публикуем в&nbsp;App&nbsp;Store и&nbsp;Google&nbsp;Play, следим за&nbsp;метриками и&nbsp;выпускаем обновления.</p>
+            <p class="step-out">Итог: приложение в&nbsp;сторах</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section class="section section--alt" id="calculator" aria-labelledby="calc-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>04</span>Стоимость</p>
+          <h2 class="h2" id="calc-title" data-reveal style="--d: 1">Сколько стоит приложение</h2>
+          <p class="section-lead" data-reveal style="--d: 2">Отметьте, что нужно,&nbsp;— и&nbsp;сразу увидите порядок цифр. Точную смету посчитаем после обсуждения ТЗ.</p>
+        </header>
+
+        <div class="calc" data-calc>
+          <div class="calc-main">
+            <form class="calc-form" data-calc-form novalidate>
+              <noscript><p class="calc-noscript">Калькулятор работает с&nbsp;включённым JavaScript. Напишите нам в&nbsp;<a href="https://t.me/avoc0der">Telegram</a>&nbsp;— посчитаем вручную.</p></noscript>
+            </form>
+            <div class="calc-dock" data-calc-dock aria-hidden="true">
+              <div class="calc-dock-values">
+                <span class="calc-dock-price" data-calc-dock-price>—</span>
+                <span class="calc-dock-time" data-calc-dock-time>Выберите платформу</span>
+              </div>
+              <button class="btn btn--accent btn--sm" type="button" data-calc-jump tabindex="-1">
+                Итог
+                <span class="btn-icon"><svg aria-hidden="true"><use href="#i-arrow-d" /></svg></span>
+              </button>
+            </div>
+          </div>
+
+          <aside class="calc-summary" aria-labelledby="receipt-title" data-calc-summary>
+            <div class="receipt">
+              <div class="receipt-head">
+                <h3 class="receipt-title" id="receipt-title">Предварительная оценка</h3>
+                <span class="receipt-date" data-calc-date></span>
+              </div>
+              <div class="receipt-body">
+                <p class="receipt-empty" data-calc-empty>Выберите платформу или дизайн, чтобы увидеть расчёт</p>
+                <ul class="receipt-lines" data-calc-lines></ul>
+              </div>
+              <dl class="receipt-totals">
+                <div class="receipt-time">
+                  <dt>Срок разработки</dt>
+                  <dd data-calc-time>—</dd>
+                </div>
+                <div class="receipt-price">
+                  <dt>Примерная стоимость</dt>
+                  <dd data-calc-price>—</dd>
+                </div>
+              </dl>
+              <p class="receipt-note">Стоимость и&nbsp;сроки ориентировочные, чтобы понять порядок цифр. Финальные значения посчитаем после детального ТЗ.</p>
+              <div class="receipt-actions">
+                <a class="btn btn--accent btn--block" href="https://t.me/avoc0der" target="_blank" rel="noopener" data-calc-send="telegram">
+                  <svg class="btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+                  Обсудить в&nbsp;Telegram
+                </a>
+                <a class="btn btn--ghost btn--block" href="https://wa.me/79286404000" target="_blank" rel="noopener" data-calc-send="whatsapp">
+                  <svg class="btn-glyph" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+                  Обсудить в&nbsp;WhatsApp
+                </a>
+              </div>
+              <p class="receipt-hint">Ваш выбор подставится в&nbsp;сообщение&nbsp;— останется только отправить.</p>
+              <button class="receipt-reset" type="button" data-calc-reset>Сбросить выбор</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="section-label" data-reveal><span>05</span>О&nbsp;студии</p>
+          <h2 class="h2" id="about-title" data-reveal style="--d: 1">Технологии и&nbsp;эстетика</h2>
+        </header>
+
+        <div class="about">
+          <div class="about-text">
+            <p class="about-lead" data-reveal>Мы считаем, что приложения должны быть не&nbsp;только полезны, но&nbsp;и&nbsp;приятны в&nbsp;использовании.</p>
+            <p data-reveal style="--d: 1">Поэтому делаем акцент на&nbsp;чистой архитектуре, высокой скорости работы и&nbsp;интерфейсах, которые понятны без инструкций. Свободно работаем со&nbsp;всем мобильным стеком и&nbsp;подбираем технологии под задачу, а&nbsp;не&nbsp;наоборот.</p>
+          </div>
+          <ul class="stats">
+            <li data-reveal><strong>10+</strong><span>лет опыта</span></li>
+            <li data-reveal style="--d: 1"><strong>50+</strong><span>проектов</span></li>
+            <li data-reveal style="--d: 2"><strong>500&nbsp;000+</strong><span>установок у&nbsp;Azkar</span></li>
+            <li data-reveal style="--d: 3"><strong>4,9</strong><span>средняя оценка Azkar в&nbsp;App&nbsp;Store</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="band" aria-label="Технологии: SwiftUI, UIKit, Kotlin, Jetpack Compose, Flutter, React Native, Expo, Next.js, GraphQL, OpenAPI, Firebase, Supabase">
+        <div class="band-track" data-band aria-hidden="true">
+          <span>SwiftUI</span><span>UIKit</span><span>Kotlin</span><span>Jetpack Compose</span><span>Flutter</span><span>React Native</span><span>Expo</span><span>Next.js</span><span>GraphQL</span><span>OpenAPI</span><span>Firebase</span><span>Supabase</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact" data-reveal>
+          <p class="section-label section-label--ink"><span>06</span>Контакты</p>
+          <h2 class="contact-title" id="contact-title">Расскажите о&nbsp;своей идее</h2>
+          <p class="contact-lead">Напишите в&nbsp;Telegram или WhatsApp&nbsp;— обсудим задачу и&nbsp;подскажем, с&nbsp;чего начать.</p>
+          <div class="contact-actions">
+            <a class="contact-btn" href="https://t.me/avoc0der" target="_blank" rel="noopener">
+              <svg class="contact-btn-glyph" aria-hidden="true"><use href="#i-telegram" /></svg>
+              <span class="contact-btn-text"><b>Telegram</b><span>@avoc0der</span></span>
+              <span class="contact-btn-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+            </a>
+            <a class="contact-btn" href="https://wa.me/79286404000" target="_blank" rel="noopener">
+              <svg class="contact-btn-glyph" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+              <span class="contact-btn-text"><b>WhatsApp</b><span>+7&nbsp;928&nbsp;640-40-00</span></span>
+              <span class="contact-btn-arrow" aria-hidden="true"><svg><use href="#i-arrow-ur" /></svg></span>
+            </a>
+          </div>
+          <a class="contact-alt" href="#calculator">Сначала посчитать стоимость <svg aria-hidden="true"><use href="#i-arrow-r" /></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="Govza Labs — на главную">
+            <svg class="brand-mark" aria-hidden="true"><use href="#i-mark" /></svg>
+            <span class="brand-name">Govza Labs</span>
+          </a>
+          <p>Дизайн. Код. Продукт.<br>Приложения для iOS, Android и&nbsp;веба.</p>
+        </div>
+        <nav class="footer-col" aria-label="Разделы сайта">
+          <h3>Разделы</h3>
+          <a href="#projects">Работы</a>
+          <a href="#services">Услуги</a>
+          <a href="#process">Процесс</a>
+          <a href="#calculator">Стоимость</a>
+          <a href="#about">О студии</a>
+        </nav>
+        <div class="footer-col">
+          <h3>Проекты</h3>
+          <a href="/azkar/">Azkar</a>
+          <a href="https://govza.app/download" target="_blank" rel="noopener">Govza Курьер</a>
+          <a href="https://fulan.travel/" target="_blank" rel="noopener">Fulan Travel</a>
+        </div>
+        <div class="footer-col">
+          <h3>Связаться</h3>
+          <a href="https://t.me/avoc0der" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://wa.me/79286404000" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+
+      <p class="footer-wordmark" aria-hidden="true">Govza Labs</p>
+
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Govza Labs</span>
+        <button class="theme-switch" type="button" data-theme-toggle>
+          <svg aria-hidden="true"><use href="#i-theme" /></svg>
+          <span data-theme-label>Тема</span>
+        </button>
+      </div>
     </div>
-
-    <!-- CONTACT MODAL -->
-    <div id="contact-modal" class="fixed inset-0 z-[10000] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <!-- Backdrop -->
-        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity opacity-0" id="contact-backdrop"></div>
-
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center">
-                <!-- Modal Panel -->
-                <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-[#1a1a1a] text-left shadow-2xl transition-all sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 p-8" id="contact-panel">
-                    
-                    <div class="flex flex-col items-center text-center">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Готовы обсудить проект?</h3>
-                        <br>
-                        
-                        <div class="grid grid-cols-1 gap-4 w-full">
-                            <button onclick="openMessenger('telegram')" class="p-4 rounded-xl border-2 border-[#229ED9] bg-[#229ED9]/5 hover:bg-[#229ED9] group transition-all flex items-center justify-center gap-3">
-                                <iconify-icon icon="logos:telegram" class="text-2xl group-hover:brightness-0 group-hover:invert transition-all"></iconify-icon>
-                                <span class="font-bold text-[#229ED9] group-hover:text-white transition-colors">Telegram</span>
-                            </button>
-                            
-                            <button onclick="openMessenger('whatsapp')" class="p-4 rounded-xl border-2 border-[#25D366] bg-[#25D366]/5 hover:bg-[#25D366] group transition-all flex items-center justify-center gap-3">
-                                <iconify-icon icon="logos:whatsapp-icon" class="text-2xl group-hover:brightness-0 group-hover:invert transition-all"></iconify-icon>
-                                <span class="font-bold text-[#25D366] group-hover:text-white transition-colors">WhatsApp</span>
-                            </button>
-                        </div>
-
-                        <button onclick="hideContactOptions()" class="mt-8 text-gray-400 hover:text-gray-600 font-medium text-sm flex items-center gap-1 transition-colors">
-                            <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
-                            Вернуться к расчету
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Calculator Logic
-        const modal = document.getElementById('calculator-modal');
-        const backdrop = document.getElementById('modal-backdrop');
-        const panel = document.getElementById('modal-panel');
-        const form = document.getElementById('calculator-form');
-        const totalPriceElement = document.getElementById('total-price');
-        const totalTimeElement = document.getElementById('total-time');
-        const selectedItemsContainer = document.getElementById('selected-items');
-        let hasManualFeatureChange = false;
-        const PRICE_LIMIT = 15000;
-        const calculatorHash = '#calculator';
-        const calculatorQueryKey = 'open';
-        const calculatorQueryValue = 'calculator';
-
-        function syncCalculatorURL(isOpen) {
-            const url = new URL(window.location.href);
-            if (isOpen) {
-                url.hash = calculatorHash;
-                url.searchParams.delete(calculatorQueryKey);
-            } else {
-                if (url.hash === calculatorHash) url.hash = '';
-                url.searchParams.delete(calculatorQueryKey);
-            }
-            history.replaceState(null, '', url);
-        }
-
-        // Category Presets
-        const categoryPresets = {
-            'ecommerce': ['Авторизация', 'Платежи', 'Рекомендации / персонализация', 'Push-уведомления', 'Поиск', 'Профили пользователей'],
-            'services': ['Авторизация', 'Карты', 'GPS Трекинг', 'Платежи', 'Push-уведомления'],
-            'education': ['Авторизация', 'Загрузка медиа', 'Поиск', 'Профили пользователей', 'Подписки', 'Рекомендации / персонализация'],
-            'community': ['Авторизация', 'Чат', 'Лента новостей', 'Профили пользователей', 'Push-уведомления', 'Загрузка медиа'],
-            'b2b': ['Авторизация', 'Push-уведомления', 'Мультиязычность', 'Админ-панель', 'Аналитика'],
-            'custom': []
-        };
-        // Features that only make sense with development (disable when only design is selected)
-        const devOnlyFeatures = new Set([
-            'Аналитика',
-            'AI Интеграция',
-            'Платежи',
-            'Рекомендации / персонализация',
-            'Подписки',
-            'Чат',
-            'Лента новостей',
-            'Карты',
-            'GPS Трекинг',
-            'Загрузка медиа',
-            'Админ-панель',
-            'Оффлайн режим',
-            'Push-уведомления'
-        ]);
-
-        function openCalculator() {
-            if (window.logEvent && window.firebaseAnalytics) {
-                window.logEvent(window.firebaseAnalytics, 'calculator_open');
-            }
-            modal.classList.remove('hidden');
-            // Small delay to allow display:block to apply before opacity transition
-            setTimeout(() => {
-                backdrop.classList.remove('opacity-0');
-                panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
-                panel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-            calculateTotal(); // Initial calculation
-            syncCalculatorURL(true);
-        }
-
-        function closeCalculator() {
-            if (window.logEvent && window.firebaseAnalytics) {
-                window.logEvent(window.firebaseAnalytics, 'calculator_close');
-            }
-            backdrop.classList.add('opacity-0');
-            panel.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
-            panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-                hideContactOptions(); // Reset overlay state
-                syncCalculatorURL(false);
-            }, 300);
-        }
-
-        // Close on backdrop click
-        backdrop.addEventListener('click', closeCalculator);
-
-        // Select Category
-        function selectCategory(category) {
-            if (window.logEvent && window.firebaseAnalytics) {
-                window.logEvent(window.firebaseAnalytics, 'calculator_category_select', {
-                    category: category
-                });
-            }
-            // If custom, do nothing to features (manual mode)
-            if (category === 'custom') {
-                calculateTotal();
-                return;
-            }
-
-            // If user has manually changed features, do NOT apply preset
-            if (hasManualFeatureChange) {
-                calculateTotal();
-                return;
-            }
-
-            const features = categoryPresets[category] || [];
-            
-            // Uncheck all features first
-            form.querySelectorAll('input[name="feature"]').forEach(input => {
-                input.checked = false;
-            });
-
-            // Check preset features
-            features.forEach(featureName => {
-                const input = form.querySelector(`input[name="feature"][data-name="${featureName}"]`);
-                if (input) input.checked = true;
-            });
-
-            calculateTotal();
-        }
-
-        // Calculate Total
-        function calculateTotal() {
-            const selectedItems = [];
-            let designCost = 0;
-            let designDays = 0;
-            let developmentCost = 0;
-            let developmentDays = 0;
-
-            // Platforms
-            const platforms = form.querySelectorAll('input[name="platform"]:checked');
-            platforms.forEach(input => {
-                developmentCost += parseInt(input.value);
-                developmentDays += parseInt(input.dataset.days);
-                selectedItems.push({ name: input.dataset.name, price: parseInt(input.value) });
-            });
-            const hasDevelopment = platforms.length > 0;
-            updateFeatureAvailability(hasDevelopment);
-
-            // Design
-            const design = form.querySelector('input[name="design"]:checked');
-            if (design) {
-                designCost += parseInt(design.value);
-                designDays += parseInt(design.dataset.days);
-                selectedItems.push({ name: design.dataset.name, price: parseInt(design.value) });
-            }
-
-            // Features
-            const features = form.querySelectorAll('input[name="feature"]:checked');
-            let featuresTotal = 0;
-            let featureDays = 0;
-            features.forEach(input => {
-                const price = parseInt(input.value);
-                featuresTotal += price;
-                featureDays += parseInt(input.dataset.days);
-            });
-
-            // Extras
-            const extras = form.querySelectorAll('input[name="extra"]:checked');
-            let extrasTotal = 0;
-            let extrasDays = 0;
-            extras.forEach(input => {
-                extrasTotal += parseInt(input.value);
-                extrasDays += parseInt(input.dataset.days);
-            });
-
-            const featureCount = features.length;
-
-            if (hasDevelopment) {
-                // Apply complexity to feature scope only (not to platforms/extras)
-                const complexityThreshold = 4;
-                const complexityRate = 0.06; // 6% per extra feature after threshold
-                const complexityMultiplier = 1 + Math.max(0, (featureCount - complexityThreshold) * complexityRate);
-
-                const featureCostWithComplexity = Math.round(featuresTotal * complexityMultiplier);
-                const featureDaysWithComplexity = Math.round(featureDays * complexityMultiplier);
-
-                developmentCost += featureCostWithComplexity + extrasTotal;
-                developmentDays += featureDaysWithComplexity + extrasDays;
-
-                if (featureCount > 0) {
-                    selectedItems.push({
-                        name: `Функции (${featureCount})`,
-                        price: featureCostWithComplexity
-                    });
-                }
-
-                if (extras.length > 0) {
-                    extras.forEach(input => {
-                        selectedItems.push({ name: input.dataset.name, price: parseInt(input.value) });
-                    });
-                }
-            } else {
-                // Design-only scenario: features influence UX scope modestly, not full dev cost
-                const designFeatureCost = Math.round(featuresTotal * 0.25);
-                const designFeatureDays = featureCount > 0 ? Math.max(4, Math.round(featureDays * 0.45)) : 0;
-
-                designCost += designFeatureCost;
-                designDays += designFeatureDays;
-
-                if (featureCount > 0) {
-                    selectedItems.push({
-                        name: `Функции для дизайна (${featureCount})`,
-                        price: designFeatureCost
-                    });
-                }
-            }
-
-            const total = designCost + developmentCost;
-
-            // Smarter timeline: design and development partially overlap
-            const combinedDays = hasDevelopment
-                ? Math.round(developmentDays + Math.round(designDays * 0.6))
-                : designDays;
-
-            // Check if at least one platform or design (paid) is selected
-            // "Design provided" has value 0, so we check if design value > 0
-            const hasPlatformOrDesign = platforms.length > 0 || (design && parseInt(design.value) > 0) || featureCount > 0 || extras.length > 0;
-            
-            // Elements to toggle
-            const summaryFooter = document.querySelector('.relative.z-10.border-t.border-gray-800.pt-6.mt-4');
-            const listContainer = document.getElementById('selected-items');
-            const listHeader = listContainer.previousElementSibling; // h3
-            const topContainer = listContainer.parentElement;
-            
-            // Footer elements
-            const timeSection = summaryFooter.querySelector('.flex.justify-between.items-end.mb-4');
-            const priceLabel = summaryFooter.querySelector('.text-sm.text-gray-400.mb-1');
-            const priceValue = summaryFooter.querySelector('.text-4xl.md\\:text-5xl.font-black');
-            const disclaimer = summaryFooter.querySelector('p.text-xs.text-gray-500');
-
-            // Create or get message element
-            let messageEl = document.getElementById('empty-selection-message');
-            if (!messageEl) {
-                messageEl = document.createElement('div');
-                messageEl.id = 'empty-selection-message';
-                messageEl.className = 'text-center text-gray-400 italic text-lg px-4';
-                messageEl.innerText = 'Выберите платформу или дизайн, чтобы увидеть расчет';
-            }
-
-            // Always show footer details structure
-            if (timeSection) timeSection.style.display = 'flex';
-            if (priceLabel) priceLabel.style.display = 'block';
-            if (priceValue) priceValue.style.display = 'flex';
-            if (disclaimer) disclaimer.style.display = 'block';
-
-            if (!hasPlatformOrDesign) {
-                // Hide List and Header
-                listContainer.style.display = 'none';
-                listHeader.style.display = 'none';
-                
-                // Center the message in the top container
-                topContainer.classList.add('justify-center', 'items-center');
-                if (!topContainer.contains(messageEl)) {
-                    topContainer.appendChild(messageEl);
-                }
-                messageEl.style.display = 'block';
-
-                // Redact values
-                totalTimeElement.innerText = '—';
-                totalPriceElement.innerText = '—';
-                
-                // Add blur effect for "redacted" look
-                totalTimeElement.classList.add('blur-sm', 'opacity-50');
-                totalPriceElement.classList.add('blur-sm', 'opacity-50');
-            } else {
-                // Show List and Header
-                listContainer.style.display = 'block';
-                listHeader.style.display = 'block';
-                
-                // Reset top container
-                topContainer.classList.remove('justify-center', 'items-center');
-                if (topContainer.contains(messageEl)) {
-                    topContainer.removeChild(messageEl);
-                }
-                
-                // Remove blur effect
-                totalTimeElement.classList.remove('blur-sm', 'opacity-50');
-                totalPriceElement.classList.remove('blur-sm', 'opacity-50');
-
-                // Clamp displayed price at PRICE_LIMIT
-                const displayTotal = Math.min(total, PRICE_LIMIT);
-
-                // Animate Price
-                const startVal = parseInt(totalPriceElement.innerText.replace(/,/g, '')) || 0;
-                animateValue(totalPriceElement, startVal, displayTotal, 500);
-
-                // Show "+" suffix when over limit
-                const priceSuffix = totalPriceElement.parentElement.querySelector('.price-plus');
-                if (total > PRICE_LIMIT) {
-                    if (!priceSuffix) {
-                        const plus = document.createElement('span');
-                        plus.className = 'price-plus';
-                        plus.textContent = '+';
-                        totalPriceElement.after(plus);
-                    }
-                } else if (priceSuffix) {
-                    priceSuffix.remove();
-                }
-
-                // Update Time with slight reduction for optimistic delivery
-                const adjustedDays = Math.round(combinedDays * 0.85);
-                updateTime(adjustedDays);
-
-            }
-
-            // Update Summary List
-            updateSummary(selectedItems);
-        }
-
-        function updateTime(days) {
-            if (days === 0) {
-                totalTimeElement.innerText = "-";
-                return;
-            }
-            const months = Math.ceil(days / 30);
-            if (months >= 6) {
-                totalTimeElement.innerText = '6+ мес.';
-            } else {
-                totalTimeElement.innerText = `~${months} мес.`;
-            }
-        }
-
-        function updateSummary(items) {
-            if (items.length === 0) {
-                selectedItemsContainer.innerHTML = '<p class="italic opacity-50">Выберите параметры слева...</p>';
-                return;
-            }
-
-            selectedItemsContainer.innerHTML = items.map(item => `
-                <div class="flex justify-between items-center animate-fade-in-up">
-                    <span>${item.name}</span>
-                    ${item.price !== null ? `<span class="font-mono opacity-70">$${item.price.toLocaleString()}</span>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function animateValue(obj, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Add event listeners to all inputs
-        form.addEventListener('change', (e) => {
-            if (e.target.name === 'platform') {
-                handlePlatformExclusivity(e.target);
-            }
-            
-            // If user manually changes a feature, switch category to Custom and set lock
-            if (e.target.name === 'feature') {
-                hasManualFeatureChange = true;
-                const customRadio = form.querySelector('input[name="category"][value="custom"]');
-                if (customRadio) customRadio.checked = true;
-            }
-
-            calculateTotal();
-        });
-
-        function updateFeatureAvailability(hasDevelopment) {
-            form.querySelectorAll('input[name="feature"]').forEach(input => {
-                const label = input.closest('label');
-                const isDevOnly = devOnlyFeatures.has(input.dataset.name);
-                const badge = label ? label.querySelector('.dev-only-badge') : null;
-
-                if (!hasDevelopment && isDevOnly) {
-                    input.checked = false;
-                    input.disabled = true;
-                    if (label) {
-                        label.classList.add('opacity-50', 'cursor-not-allowed');
-                    }
-                } else {
-                    input.disabled = false;
-                    if (label) {
-                        label.classList.remove('opacity-50', 'cursor-not-allowed');
-                    }
-                }
-
-                // Remove any existing badge if present (cleanup from previous version)
-                if (badge) {
-                    badge.remove();
-                }
-            });
-        }
-
-        function handlePlatformExclusivity(changedInput) {
-            const platforms = Array.from(form.querySelectorAll('input[name="platform"]'));
-            const iosInput = platforms.find(p => p.dataset.name === 'iOS Приложение');
-            const androidInput = platforms.find(p => p.dataset.name === 'Android Приложение');
-            const crossPlatformInput = platforms.find(p => p.dataset.name === 'Кроссплатформа');
-            const webInput = platforms.find(p => p.dataset.name === 'Веб-приложение');
-
-            if (changedInput.checked) {
-                // Web can be combined with anything, so we ignore it for exclusivity checks
-                if (changedInput === webInput) return;
-
-                if (changedInput === crossPlatformInput) {
-                    // Cross-Platform selected: uncheck other mobile options
-                    iosInput.checked = false;
-                    androidInput.checked = false;
-                } else if (changedInput === iosInput || changedInput === androidInput) {
-                    // Native selected: uncheck cross-platform mobile options
-                    crossPlatformInput.checked = false;
-                }
-            }
-        }
-
-        // Contact Options Logic
-        const contactModal = document.getElementById('contact-modal');
-        const contactBackdrop = document.getElementById('contact-backdrop');
-        const contactPanel = document.getElementById('contact-panel');
-
-        function showContactOptions() {
-            if (window.logEvent && window.firebaseAnalytics) {
-                const totalPrice = document.getElementById('total-price').innerText;
-                const totalTime = document.getElementById('total-time').innerText;
-                
-                // Gather state for analytics
-                const categoryInput = document.querySelector('input[name="category"]:checked');
-                const category = categoryInput ? categoryInput.value : 'unknown';
-                
-                const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked'))
-                    .map(i => i.dataset.name);
-                    
-                const designInput = document.querySelector('input[name="design"]:checked');
-                const design = designInput ? designInput.dataset.name : 'none';
-                
-                const featureCount = document.querySelectorAll('input[name="feature"]:checked').length;
-
-                window.logEvent(window.firebaseAnalytics, 'calculator_discuss_click', {
-                    total_price: totalPrice,
-                    total_time: totalTime,
-                    category: category,
-                    platforms: platforms.join(', '),
-                    design: design,
-                    feature_count: featureCount
-                });
-            }
-            contactModal.classList.remove('hidden');
-            // Small delay for transition
-            setTimeout(() => {
-                contactBackdrop.classList.remove('opacity-0');
-                contactPanel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
-                contactPanel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
-            }, 10);
-        }
-
-        function hideContactOptions() {
-            if (window.logEvent && window.firebaseAnalytics) {
-                window.logEvent(window.firebaseAnalytics, 'contact_options_close');
-            }
-            contactBackdrop.classList.add('opacity-0');
-            contactPanel.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
-            contactPanel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
-            
-            setTimeout(() => {
-                contactModal.classList.add('hidden');
-            }, 300);
-        }
-
-        // Close contact modal on backdrop click
-        contactBackdrop.addEventListener('click', hideContactOptions);
-
-        function getCalculatorMessage() {
-            const category = document.querySelector('input[name="category"]:checked').value;
-            const categoryMap = {
-                'ecommerce': 'Маркетплейс / eCommerce',
-                'services': 'Доставка / Услуги',
-                'education': 'Онлайн-обучение',
-                'community': 'Сообщество / Соцсеть',
-                'b2b': 'B2B / Внутренние сервисы',
-                'custom': 'Другое / Свой проект'
-            };
-            const categoryName = categoryMap[category] || category;
-
-            let message = `\n\n-----\n\n`;
-            message += `Тип: ${categoryName}\n`;
-            
-            // Platforms
-            const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked'))
-                .map(i => `- ${i.dataset.name}`)
-                .join('\n');
-            if (platforms) message += `\nПлатформы:\n${platforms}\n`;
-
-            // Design
-            const design = document.querySelector('input[name="design"]:checked');
-            if (design) message += `\nДизайн: ${design.dataset.name}\n`;
-
-            // Features
-            const features = Array.from(document.querySelectorAll('input[name="feature"]:checked'))
-                .map(i => `- ${i.dataset.name}`)
-                .join('\n');
-            if (features) message += `\nФункции:\n${features}\n`;
-
-            // Extras
-            const extras = Array.from(document.querySelectorAll('input[name="extra"]:checked'))
-                .map(i => `- ${i.dataset.name}`)
-                .join('\n');
-            if (extras) message += `\nДополнительно:\n${extras}\n`;
-
-            return encodeURIComponent(message);
-        }
-
-        function openMessenger(type) {
-            if (window.logEvent && window.firebaseAnalytics) {
-                window.logEvent(window.firebaseAnalytics, 'contact_select', {
-                    contact_method: type
-                });
-            }
-            const message = getCalculatorMessage();
-            let url = '';
-
-            switch(type) {
-                case 'telegram':
-                    url = `https://t.me/avoc0der?text=${message}`;
-                    break;
-                case 'whatsapp':
-                    url = `https://wa.me/+79286404000?text=${message}`;
-                    break;
-                case 'email':
-                    url = `mailto:hello@avocado.apps?subject=Обсуждение проекта&body=${message}`;
-                    break;
-            }
-
-            if (url) window.open(url, '_blank');
-        }
-
-        function handleCalculatorDeepLink() {
-            const url = new URL(window.location.href);
-            const wantsCalculator =
-                url.hash === calculatorHash ||
-                url.searchParams.get(calculatorQueryKey) === calculatorQueryValue;
-            if (wantsCalculator) {
-                openCalculator();
-            }
-        }
-
-        window.addEventListener('load', handleCalculatorDeepLink);
-
-        // Close modals on ESC key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const contactModal = document.getElementById('contact-modal');
-                const calculatorModal = document.getElementById('calculator-modal');
-
-                if (contactModal && !contactModal.classList.contains('hidden')) {
-                    hideContactOptions();
-                } else if (calculatorModal && !calculatorModal.classList.contains('hidden')) {
-                    closeCalculator();
-                }
-            }
-        });
-    </script>
+  </footer>
 </body>
 
 </html>
