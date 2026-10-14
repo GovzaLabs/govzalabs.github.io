@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azkar — Ежедневные поминания | Govza Labs</title>
+    <meta name="description" content="Скачайте Azkar — удобное и красивое приложение для чтения ежедневных азкаров и дуа. Доступно на iOS и Android.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Azkar — Ежедневные поминания">
+    <meta property="og:description" content="Удобное и красивое приложение для чтения ежедневных азкаров и дуа.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="store-screenshots/screen_1_ru.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236366F1' /><stop offset='0.5' stop-color='%23A855F7' /><stop offset='1' stop-color='%23EC4899' /></linearGradient></defs><rect x='4' y='4' width='92' height='92' rx='24' fill='url(%23g)' /><path d='M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22' stroke='%23FFFFFF' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none' /><path d='M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z' fill='%23FFFFFF' /><circle cx='50' cy='56' r='3.5' fill='%23FFFFFF' /></svg>">
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGbTm0oZOhUtfwTf_G97amgvoA3CJbPg0",
+            authDomain: "avocadoappswebsite.firebaseapp.com",
+            projectId: "avocadoappswebsite",
+            storageBucket: "avocadoappswebsite.firebasestorage.app",
+            messagingSenderId: "805026130598",
+            appId: "1:805026130598:web:86d8d53a1ed3cd6b5f6267",
+            measurementId: "G-2QNNH7FLBJ"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        // Track all link clicks
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link) {
+                const url = link.href;
+                const text = link.innerText || link.textContent || link.getAttribute('aria-label') || 'no_text';
+
+                // Basic link click
+                logEvent(analytics, 'link_click', {
+                    link_url: url,
+                    link_text: text.trim().substring(0, 100)
+                });
+
+                // Specific Store tracking
+                if (url.includes('apps.apple.com')) {
+                    logEvent(analytics, 'app_store_click', { platform: 'ios' });
+                } else if (url.includes('play.google.com')) {
+                    logEvent(analytics, 'google_play_click', { platform: 'android' });
+                }
+            }
+        });
+
+        window.firebaseAnalytics = analytics;
+        window.logEvent = logEvent;
+    </script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .font-brand {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, #ecfdf5 0%, #f8fafc 100%);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .step-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Marquee for Screenshots */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 40s linear infinite;
+        }
+
+        .screenshot-mask {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-emerald-500 selection:text-white hero-gradient overflow-x-hidden">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-[#e0e0e0]">
+        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="../" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+                        class="w-full h-full transition-transform group-hover:scale-110" fill="none">
+                        <defs><linearGradient id="gl-mark-2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-2)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
+                    </svg>
+                </div>
+                <span class="font-brand font-bold text-lg tracking-tight text-black">Govza Labs</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+                <a href="../#projects" class="hover:text-black transition-colors">Проекты</a>
+                <a href="../#about" class="hover:text-black transition-colors">О нас</a>
+                <a href="../#contact" class="hover:text-black transition-colors">Контакты</a>
+            </nav>
+
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="text-black p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-[#e0e0e0]">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-gray-600">
+                <a href="../#projects" class="hover:text-black transition-colors block py-2">Проекты</a>
+                <a href="../#about" class="hover:text-black transition-colors block py-2">О нас</a>
+                <a href="../#contact" class="hover:text-black transition-colors block py-2">Контакты</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20">
+        <!-- HERO SECTION -->
+        <section class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Text Content -->
+                <div class="flex-1 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-6">
+                        <iconify-icon icon="solar:star-bold"></iconify-icon>
+                        Лучшее приложение для азкаров
+                    </div>
+                    <h1 class="text-6xl md:text-7xl font-black font-brand text-slate-900 tracking-tight mb-6 leading-tight flex flex-col md:flex-row items-center lg:items-start gap-4">
+                        <img src="app-icon.png" alt="Azkar Logo" class="w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-lg">
+                        <span>Azkar <span class="text-emerald-600">App</span></span>
+                    </h1>
+                    <p class="text-xl text-slate-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                        Удобный способ читать ежедневные мольбы и поминания Аллаха. Напоминания, счетчик, перевод и аудио — всё в одном приложении.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4">
+                        <a href="https://apps.apple.com/ru/app/azkar/id1511423586?itscg=30200&itsct=apps_box_badge&mttnsubad=1511423586" target="_blank" class="transition-transform hover:scale-105 active:scale-95">
+                            <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/ru-ru?releaseDate=1589673600" alt="Download on the App Store" style="width: 180px; height: auto; vertical-align: middle; object-fit: contain;">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=io.jawziyya.azkar" target="_blank" class="transition-transform hover:scale-105 active:scale-95">
+                            <img src="badges/play-store.svg" alt="Get it on Google Play" style="width: 200px; height: auto; vertical-align: middle; object-fit: contain;">
+                        </a>
+                    </div>
+
+                    <div class="mt-12 flex items-center justify-center lg:justify-start gap-6 text-slate-400">
+                        <div class="flex flex-col items-center lg:items-start">
+                            <div class="text-2xl font-black text-slate-800">4.9 ✦</div>
+                            <div class="text-xs font-bold uppercase tracking-widest">Рейтинг</div>
+                        </div>
+                        <div class="w-px h-8 bg-slate-200"></div>
+                        <div class="flex flex-col items-center lg:items-start">
+                            <div class="text-2xl font-black text-slate-800">500,000+</div>
+                            <div class="text-xs font-bold uppercase tracking-widest">Установок</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App Screenshots Carousel -->
+                <div class="flex-1 w-full min-w-0 relative overflow-hidden screenshot-mask py-10">
+                    <div class="animate-marquee gap-4 md:gap-6">
+                        <!-- First Set -->
+                        <img src="store-screenshots/screen_1_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 1">
+                        <img src="store-screenshots/screen_2_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 2">
+                        <img src="store-screenshots/screen_3_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 3">
+                        <img src="store-screenshots/screen_4_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 4">
+                        <img src="store-screenshots/screen_5_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 5">
+                        <img src="store-screenshots/screen_6_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 6">
+                        <!-- Duplicate for Seamless Loop -->
+                        <img src="store-screenshots/screen_1_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 1">
+                        <img src="store-screenshots/screen_2_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 2">
+                        <img src="store-screenshots/screen_3_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 3">
+                        <img src="store-screenshots/screen_4_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 4">
+                        <img src="store-screenshots/screen_5_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 5">
+                        <img src="store-screenshots/screen_6_ru.jpg" class="h-[320px] md:h-[500px] rounded-2xl md:rounded-[2rem] border border-slate-200 shadow-sm" alt="App Screen 6">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 py-12">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full" fill="none">
+                        <defs><linearGradient id="gl-mark-3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1" /><stop offset="0.5" stop-color="#A855F7" /><stop offset="1" stop-color="#EC4899" /></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="24" fill="url(#gl-mark-3)" /><path d="M40 22 H60 M43 22 V44 L26 74 C23 79 26 84 32 84 H68 C74 84 77 79 74 74 L57 44 V22" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" /><path d="M33 66 H67 L72 75 C73.5 78 72 80 68.5 80 H31.5 C28 80 26.5 78 28 75 Z" fill="#FFFFFF" /><circle cx="50" cy="56" r="3.5" fill="#FFFFFF" />
+                    </svg>
+                </div>
+                <span class="font-brand font-bold text-lg text-slate-900 uppercase tracking-tighter">Govza Labs</span>
+            </div>
+            <p class="text-sm text-slate-500 font-medium">© 2026 Govza Labs. Все права защищены.</p>
+        </div>
+    </footer>
+    <script>
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // Close menu on click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
