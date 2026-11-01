@@ -789,7 +789,7 @@ p {
 
 .hero-facts {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(2, auto);
   justify-content: start;
   gap: clamp(20px, 4vw, 44px);
   max-width: 600px;
