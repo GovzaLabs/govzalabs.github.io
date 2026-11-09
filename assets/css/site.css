@@ -2280,6 +2280,21 @@ a.case-core:hover .case-arrow {
   color: var(--muted);
 }
 
+.footer-legal {
+  margin: 16px 0 0;
+  font: 500 0.78rem/1.6 var(--font-mono);
+  font-style: normal;
+  color: var(--muted);
+}
+
+.footer-legal a {
+  transition: color 0.2s;
+}
+
+.footer-legal a:hover {
+  color: var(--accent-text);
+}
+
 .theme-switch {
   display: inline-flex;
   align-items: center;
