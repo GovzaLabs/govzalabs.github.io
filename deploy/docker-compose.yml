@@ -1,0 +1,27 @@
+# Serves this checkout at govzalabs.ru on the Govza VPS. The host's nginx-proxy
+# routes the two names here and its acme-companion gets the certificates; both
+# find the container through the shared `govza` network and the variables below.
+name: govzalabs
+
+networks:
+  govza:
+    external: true
+
+services:
+  site:
+    image: nginx:1.27-alpine
+    container_name: govzalabs-site
+    restart: unless-stopped
+    networks:
+      - govza
+    volumes:
+      - ..:/usr/share/nginx/html:ro
+      # A directory, not the file: `git pull` replaces the file, and a
+      # single-file mount would keep showing the old one.
+      - ./nginx:/etc/nginx/conf.d:ro
+    environment:
+      VIRTUAL_HOST: govzalabs.ru,www.govzalabs.ru
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: govzalabs.ru,www.govzalabs.ru
+      # One certificate per name, so a failed www issuance cannot block the apex.
+      LETSENCRYPT_SINGLE_DOMAIN_CERTS: "true"
